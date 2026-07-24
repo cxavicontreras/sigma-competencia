@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "Euler",
+        "score": 0,
+        "multiplier": 1
+    },
+    {
+        "id": 2,
+        "name": "Gauss",
+        "score": 0,
+        "multiplier": 1
+    },
+    {
+        "id": 3,
+        "name": "Newton",
+        "score": 0,
+        "multiplier": 1
+    }
+]

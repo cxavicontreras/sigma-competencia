@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "categoryId": 1,
+    "question": "Resuelve: 3x + 5 = 20",
+    "answer": "x = 5",
+    "points": 10
+  },
+  {
+    "id": 2,
+    "categoryId": 1,
+    "question": "¿Cuál es el valor de x² si x = 7?",
+    "answer": "49",
+    "points": 5
+  },
+  {
+    "id": 3,
+    "categoryId": 2,
+    "question": "¿Cuántos grados tiene la suma de los ángulos internos de un triángulo?",
+    "answer": "180°",
+    "points": 5
+  },
+  {
+    "id": 4,
+    "categoryId": 2,
+    "question": "¿Cómo se llama un polígono de ocho lados?",
+    "answer": "Octágono",
+    "points": 10
+  },
+  {
+    "id": 5,
+    "categoryId": 3,
+    "question": "¿Cuál es el valor de sen(90°)?",
+    "answer": "1",
+    "points": 5
+  },
+  {
+    "id": 6,
+    "categoryId": 3,
+    "question": "¿Cuál es el valor de cos(0°)?",
+    "answer": "1",
+    "points": 10
+  },
+  {
+    "id": 7,
+    "categoryId": 4,
+    "question": "¿Cuánto es 125 + 375?",
+    "answer": "500",
+    "points": 5
+  },
+  {
+    "id": 8,
+    "categoryId": 4,
+    "question": "¿Cuánto es 48 × 12?",
+    "answer": "576",
+    "points": 10
+  },
+  {
+    "id": 9,
+    "categoryId": 5,
+    "question": "¿Qué medida representa el valor central de un conjunto ordenado?",
+    "answer": "La mediana",
+    "points": 10
+  },
+  {
+    "id": 10,
+    "categoryId": 5,
+    "question": "¿Cómo se llama el valor que más se repite en un conjunto de datos?",
+    "answer": "La moda",
+    "points": 5
+  },
+  {
+    "id": 11,
+    "categoryId": 6,
+    "question": "¿Cuál es la probabilidad de obtener un 6 al lanzar un dado justo?",
+    "answer": "1/6",
+    "points": 10
+  },
+  {
+    "id": 12,
+    "categoryId": 6,
+    "question": "¿Cuál es la probabilidad de obtener cara al lanzar una moneda?",
+    "answer": "1/2",
+    "points": 5
+  },
+  {
+    "id": 13,
+    "categoryId": 7,
+    "question": "¿Qué valor tiene la expresión: verdadero AND falso?",
+    "answer": "Falso",
+    "points": 10
+  },
+  {
+    "id": 14,
+    "categoryId": 7,
+    "question": "¿Qué operador lógico representa la negación?",
+    "answer": "NOT",
+    "points": 5
+  },
+  {
+    "id": 15,
+    "categoryId": 8,
+    "question": "¿Cuál es la derivada de x²?",
+    "answer": "2x",
+    "points": 10
+  },
+  {
+    "id": 16,
+    "categoryId": 8,
+    "question": "¿Cuál es la integral de 1 dx?",
+    "answer": "x + C",
+    "points": 10
+  },
+  {
+    "id": 17,
+    "categoryId": 9,
+    "question": "¿Cómo se llama una función cuya gráfica es una línea recta?",
+    "answer": "Función lineal",
+    "points": 5
+  },
+  {
+    "id": 18,
+    "categoryId": 9,
+    "question": "¿Cuál es la pendiente de la recta y = 4x + 2?",
+    "answer": "4",
+    "points": 10
+  },
+  {
+    "id": 19,
+    "categoryId": 10,
+    "question": "¿Cuál es el siguiente término: 2, 4, 8, 16...?",
+    "answer": "32",
+    "points": 5
+  },
+  {
+    "id": 20,
+    "categoryId": 10,
+    "question": "¿Cómo se llama una sucesión con diferencia constante?",
+    "answer": "Sucesión aritmética",
+    "points": 10
+  },
+  {
+    "id": 21,
+    "categoryId": 11,
+    "question": "¿Cuántas filas tiene una matriz de 3×2?",
+    "answer": "3",
+    "points": 5
+  },
+  {
+    "id": 22,
+    "categoryId": 12,
+    "question": "¿Qué representa la longitud de un vector?",
+    "answer": "Su magnitud",
+    "points": 10
+  },
+  {
+    "id": 23,
+    "categoryId": 13,
+    "question": "¿Cuál es la unidad de fuerza en el SI?",
+    "answer": "Newton",
+    "points": 5
+  },
+  {
+    "id": 24,
+    "categoryId": 14,
+    "question": "¿Cuál es el símbolo químico del sodio?",
+    "answer": "Na",
+    "points": 10
+  },
+  {
+    "id": 25,
+    "categoryId": 15,
+    "question": "¿Qué lenguaje se utiliza principalmente para dar estilo a una página web?",
+    "answer": "CSS",
+    "points": 5
+  },
+  {
+    "id": 26,
+    "categoryId": 15,
+    "question": "¿Qué comando de Git envía los cambios al repositorio remoto?",
+    "answer": "git push",
+    "points": 10
+  },
+  {
+    "id": 27,
+    "categoryId": 16,
+    "question": "¿Cuántas filas tiene un Sudoku clásico?",
+    "answer": "9",
+    "points": 5
+  },
+  {
+    "id": 28,
+    "categoryId": 17,
+    "question": "¿Cómo se llama el juego donde se completan palabras cruzadas?",
+    "answer": "Crucigrama",
+    "points": 5
+  },
+  {
+    "id": 29,
+    "categoryId": 18,
+    "question": "Tengo ciudades, pero no casas; ríos, pero no agua. ¿Qué soy?",
+    "answer": "Un mapa",
+    "points": 15
+  },
+  {
+    "id": 30,
+    "categoryId": 20,
+    "question": "¡Comodín! El equipo puede elegir: ganar 10 puntos o duplicar los puntos de la siguiente pregunta.",
+    "answer": "Respuesta libre",
+    "points": 0
+  }
+]
