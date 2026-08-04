@@ -19,4 +19,8 @@ export interface CompetitionState {
 
     revealingCategory: Category | null;
 
+    scoringActive: boolean;
+
+    pendingPoints: number;
+
 }

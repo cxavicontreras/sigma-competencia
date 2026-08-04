@@ -2,121 +2,37 @@
     {
         "id": 1,
         "name": "Álgebra",
-        "color": "#EF4444",
-        "icon": "∑"
+        "color": "#DC2626",
+        "icon": "𝑥"
     },
     {
         "id": 2,
-        "name": "Geometría",
-        "color": "#F97316",
-        "icon": "△"
+        "name": "Aritmética",
+        "color": "#2563EB",
+        "icon": "➕"
     },
     {
         "id": 3,
-        "name": "Trigonometría",
-        "color": "#EAB308",
-        "icon": "∠"
+        "name": "Secuencias",
+        "color": "#7C3AED",
+        "icon": "∞"
     },
     {
         "id": 4,
-        "name": "Aritmética",
-        "color": "#84CC16",
-        "icon": "+"
+        "name": "Geometría",
+        "color": "#059669",
+        "icon": "△"
     },
     {
         "id": 5,
-        "name": "Estadística",
-        "color": "#22C55E",
-        "icon": "📊"
+        "name": "Sudoku",
+        "color": "#F59E0B",
+        "icon": "🧩"
     },
     {
         "id": 6,
-        "name": "Probabilidad",
-        "color": "#14B8A6",
-        "icon": "🎲"
-    },
-    {
-        "id": 7,
-        "name": "Lógica",
-        "color": "#06B6D4",
-        "icon": "⊨"
-    },
-    {
-        "id": 8,
-        "name": "Cálculo",
-        "color": "#0EA5E9",
-        "icon": "∫"
-    },
-    {
-        "id": 9,
-        "name": "Funciones",
-        "color": "#3B82F6",
-        "icon": "ƒ"
-    },
-    {
-        "id": 10,
-        "name": "Sucesiones",
-        "color": "#6366F1",
-        "icon": "an"
-    },
-    {
-        "id": 11,
-        "name": "Matrices",
-        "color": "#8B5CF6",
-        "icon": "▣"
-    },
-    {
-        "id": 12,
-        "name": "Vectores",
-        "color": "#A855F7",
-        "icon": "→"
-    },
-    {
-        "id": 13,
-        "name": "Física",
-        "color": "#D946EF",
-        "icon": "⚛"
-    },
-    {
-        "id": 14,
-        "name": "Química",
-        "color": "#EC4899",
-        "icon": "⚗"
-    },
-    {
-        "id": 15,
-        "name": "Programación",
-        "color": "#F43F5E",
-        "icon": "</>"
-    },
-    {
-        "id": 16,
-        "name": "Sudoku",
-        "color": "#64748B",
-        "icon": "▦"
-    },
-    {
-        "id": 17,
         "name": "Crucigrama",
-        "color": "#475569",
-        "icon": "✎"
-    },
-    {
-        "id": 18,
-        "name": "Acertijo",
-        "color": "#0F766E",
-        "icon": "💡"
-    },
-    {
-        "id": 19,
-        "name": "Reto Express",
-        "color": "#7C3AED",
-        "icon": "⚡"
-    },
-    {
-        "id": 20,
-        "name": "Comodín",
         "color": "#F59E0B",
-        "icon": "★"
+        "icon": "✏️"
     }
 ]

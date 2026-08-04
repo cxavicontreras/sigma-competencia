@@ -27,6 +27,17 @@ type TeamActions = {
 
     resetScores: () => void;
 
+    reloadTeams: () => void;
+
+    createTeam: (name: string) => void;
+
+    updateTeam: (
+        id: number,
+        data: Partial<Team>,
+    ) => void;
+
+    deleteTeam: (id: number) => void;
+
 };
 
 export const useTeamStore = create<TeamState & TeamActions>((set) => ({
@@ -106,6 +117,64 @@ export const useTeamStore = create<TeamState & TeamActions>((set) => ({
             teams: TeamService.reset(), 
 
             currentTeam: 0,
+
+        }),
+
+    reloadTeams: () =>
+
+        set({
+
+            teams: TeamService.getAll(),
+
+            currentTeam: 0,
+
+        }),
+
+    createTeam: (name) =>
+
+        set((state) => {
+
+            const team = TeamService.createTeam(name);
+
+            return {
+                teams: [...state.teams, team],
+            };
+
+        }),
+
+    updateTeam: (id, data) =>
+
+        set((state) => {
+
+            TeamService.updateTeam(id, data);
+
+            return {
+                teams: state.teams.map((t) =>
+                    t.id === id ? { ...t, ...data } : t
+                ),
+            };
+
+        }),
+
+    deleteTeam: (id) =>
+
+        set((state) => {
+
+            TeamService.deleteTeam(id);
+
+            const newTeams = state.teams.filter(
+                (t) => t.id !== id,
+            );
+
+            const newIndex = Math.min(
+                state.currentTeam,
+                newTeams.length - 1,
+            );
+
+            return {
+                teams: newTeams,
+                currentTeam: newIndex >= 0 ? newIndex : 0,
+            };
 
         }),
 

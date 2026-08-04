@@ -2,8 +2,11 @@ import { Box } from "./Box";
 import { COMPETITION } from "../../../config/competition";
 import { useCompetitionStore } from "../../../stores";
 
+type BoxGridProps = {
+    onBoxSelect?: (box: number) => void;
+};
 
-export function BoxGrid() {
+export function BoxGrid({ onBoxSelect }: BoxGridProps) {
 
     const boxes = Array.from(
         { length: COMPETITION.totalBoxes },
@@ -43,6 +46,7 @@ export function BoxGrid() {
                     multiplier={
                         boxMultipliers[number] ?? 1
                     }
+                    onSelect={onBoxSelect}
                 />
             ))}
         </section>

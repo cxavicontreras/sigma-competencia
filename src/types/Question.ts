@@ -4,9 +4,15 @@ export interface Question {
 
     categoryId: number;
 
-    question: string;
+    title?: string;
 
-    answer: string;
+    question?: string;
+
+    answer?: string;
+
+    questionImage?: string;
+
+    answerImage?: string;
 
     points: number;
 

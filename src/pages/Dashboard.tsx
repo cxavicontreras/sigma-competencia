@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { Header, Sidebar } from "../components/layout";
@@ -10,27 +11,110 @@ import {
 } from "../stores";
 import { QuestionModal } from "../components/game/question";
 import { CategoryCard } from "../components/game/reveal";
+import { Podium } from "../components/game/podium";
+import { ScoreAssignmentModal } from "../components/game/assignment";
+import {
+    QuestionService,
+    CategoryService,
+} from "../services";
+
+const REVEAL_DELAY = 2200;
 
 export function Dashboard() {
 
     const currenQuestion = useCompetitionStore(
-        state => state.currentQuestion
+        (state) => state.currentQuestion,
     );
 
     const finished = useCompetitionStore(
-        state => state.finished
+        (state) => state.finished,
     );
 
     const setFinished = useCompetitionStore(
-        state => state.setFinished
+        (state) => state.setFinished,
     );
 
     const resetCompetition = useCompetitionStore(
-        state => state.resetCompetition
+        (state) => state.resetCompetition,
     );
 
     const resetScores = useTeamStore(
-        state => state.resetScores
+        (state) => state.resetScores,
+    );
+
+    const teams = useTeamStore(
+        (state) => state.teams,
+    );
+
+    const setSelectedBox = useCompetitionStore(
+        (state) => state.setSelectedBox,
+    );
+
+    const setCurrentMultiplier =
+        useCompetitionStore(
+            (state) => state.setCurrentMultiplier,
+        );
+
+    const setRevealingCategory =
+        useCompetitionStore(
+            (state) =>
+                state.setRevealingCategory,
+        );
+
+    const setCurrentQuestion =
+        useCompetitionStore(
+            (state) =>
+                state.setCurrentQuestion,
+        );
+
+    const boxMultipliers = useCompetitionStore(
+        (state) => state.boxMultipliers,
+    );
+
+    const usedBoxes = useCompetitionStore(
+        (state) => state.usedBoxes,
+    );
+
+    const handleBoxSelect = useCallback(
+        (box: number) => {
+            if (usedBoxes.includes(box)) return;
+            if (currenQuestion) return;
+
+            setSelectedBox(box);
+            setCurrentMultiplier(
+                boxMultipliers[box] ?? 1,
+            );
+
+            const question =
+                QuestionService.getQuestionForBox(
+                    box,
+                );
+
+            if (question) {
+                const category =
+                    CategoryService.getById(
+                        question.categoryId,
+                    );
+
+                if (category) {
+                    setRevealingCategory(category);
+                }
+
+                setTimeout(() => {
+                    setRevealingCategory(null);
+                    setCurrentQuestion(question);
+                }, REVEAL_DELAY);
+            }
+        },
+        [
+            usedBoxes,
+            currenQuestion,
+            setSelectedBox,
+            setCurrentMultiplier,
+            boxMultipliers,
+            setRevealingCategory,
+            setCurrentQuestion,
+        ],
     );
 
     function handleFinish() {
@@ -64,7 +148,9 @@ export function Dashboard() {
                 <Sidebar />
 
                 <GlassCard className="overflow-hidden">
-                    <BoxGrid />
+                    <BoxGrid
+                        onBoxSelect={handleBoxSelect}
+                    />
                 </GlassCard>
 
                 <Wheel />
@@ -120,80 +206,19 @@ export function Dashboard() {
                 </GlassCard>
 
             </motion.footer>
-            {
-                currenQuestion && (
-                    <QuestionModal />
-                )
-            }
+
+            {currenQuestion && <QuestionModal />}
+
+            <ScoreAssignmentModal />
 
             <CategoryCard />
 
             <AnimatePresence>
                 {finished && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4 }}
-                        className="
-                            fixed
-                            inset-0
-                            z-[100]
-                            flex
-                            items-center
-                            justify-center
-                            bg-[#020617]
-                        "
-                    >
-                        <motion.div
-                            initial={{
-                                scale: 0.8,
-                                opacity: 0,
-                            }}
-                            animate={{
-                                scale: 1,
-                                opacity: 1,
-                            }}
-                            transition={{
-                                delay: 0.15,
-                                duration: 0.4,
-                            }}
-                            className="
-                                flex
-                                flex-col
-                                items-center
-                                gap-10
-                            "
-                        >
-                            <h1
-                                className="
-                                    text-6xl
-                                    font-black
-                                    tracking-wide
-                                    text-amber-400
-                                "
-                            >
-                                Competencia Finalizada
-                            </h1>
-
-                            <button
-                                onClick={handleRestart}
-                                className="
-                                    rounded-xl
-                                    bg-amber-400
-                                    px-10
-                                    py-4
-                                    text-xl
-                                    font-bold
-                                    text-slate-950
-                                    transition-all
-                                    hover:scale-105
-                                "
-                            >
-                                Comenzar Nueva Competencia
-                            </button>
-                        </motion.div>
-                    </motion.div>
+                    <Podium
+                        teams={teams}
+                        onRestart={handleRestart}
+                    />
                 )}
             </AnimatePresence>
 

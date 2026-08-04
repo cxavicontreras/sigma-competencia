@@ -43,6 +43,14 @@ type CompetitionActions = {
 
     resetCompetition: () => void;
 
+    setScoringActive: (
+        active: boolean
+    ) => void;
+
+    setPendingPoints: (
+        points: number
+    ) => void;
+
 };
 
 export const useCompetitionStore = create<
@@ -64,6 +72,10 @@ export const useCompetitionStore = create<
     finished: false,
 
     revealingCategory: null,
+
+    scoringActive: false,
+
+    pendingPoints: 0,
 
     setSelectedBox: (box) =>
         set({
@@ -109,6 +121,18 @@ export const useCompetitionStore = create<
             spinning: false,
             finished: false,
             revealingCategory: null,
+            scoringActive: false,
+            pendingPoints: 0,
+        }),
+
+    setScoringActive: (active) =>
+        set({
+            scoringActive: active,
+        }),
+
+    setPendingPoints: (points) =>
+        set({
+            pendingPoints: points,
         }),
 
     setSpinning: (value) =>

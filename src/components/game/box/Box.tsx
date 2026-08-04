@@ -9,6 +9,7 @@ type BoxProps = {
     active?: boolean;
     used?: boolean;
     multiplier?: number;
+    onSelect?: (box: number) => void;
 };
 
 const MULTIPLIER_COLORS: Record<number, string> = {
@@ -23,9 +24,16 @@ export function Box({
     delay = 0,
     used,
     multiplier = 1,
+    onSelect,
 }: BoxProps) {
+    function handleClick() {
+        if (used) return;
+        onSelect?.(number);
+    }
+
     return (
         <motion.button
+            onClick={handleClick}
             initial={{
                 opacity: 0,
                 scale: 0.7,

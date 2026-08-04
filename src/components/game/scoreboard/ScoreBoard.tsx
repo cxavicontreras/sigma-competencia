@@ -5,11 +5,18 @@ import { useTeamStore } from "../../../stores";
 export function ScoreBoard() {
 
     const teams = useTeamStore(
-        state => state.teams
+        (state) => state.teams,
     );
 
     const currentTeam = useTeamStore(
-        state => state.currentTeam
+        (state) => state.currentTeam,
+    );
+
+    const teamCount = teams.length;
+
+    const gap = Math.max(
+        2,
+        Math.round(16 * Math.min(1, 3 / teamCount)),
     );
 
     return (
@@ -17,31 +24,32 @@ export function ScoreBoard() {
         <div
             className="
                 flex
+                flex-1
+                min-h-0
                 flex-col
-                gap-4
                 w-full
+                pl-2
             "
+            style={{ gap: `${gap}px` }}
         >
 
-            {
+            {teams.map((team, index) => (
 
-                teams.map((team, index) => (
+                <TeamCard
 
-                    <TeamCard
+                    key={team.id}
 
-                        key={team.id}
+                    team={team}
 
-                        team={team}
+                    teamCount={teamCount}
 
-                        active={
-                            index === currentTeam
-                        }
+                    active={
+                        index === currentTeam
+                    }
 
-                    />
+                />
 
-                ))
-
-            }
+            ))}
 
         </div>
 
