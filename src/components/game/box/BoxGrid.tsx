@@ -31,9 +31,10 @@ export function BoxGrid({ onBoxSelect }: BoxGridProps) {
                 grid
                 h-full
                 grid-cols-5
+                auto-rows-fr
                 gap-3
-                p-4
-                place-items-center
+                p-2
+                items-stretch
             "
         >
             {boxes.map((number, index) => (

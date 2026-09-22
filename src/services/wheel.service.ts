@@ -1,7 +1,7 @@
 export class WheelService {
 
     public static spin(
-    max = 30,
+    max = 20,
     usedBoxes: number[] = [],
 ): number {
 
@@ -27,7 +27,7 @@ export class WheelService {
 
 }
 
-    public static next(current: number, max = 30): number {
+    public static next(current: number, max = 20): number {
 
         return current >= max
             ? 1

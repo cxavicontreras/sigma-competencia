@@ -65,298 +65,83 @@ export function QuestionModal() {
         setScoringActive(true);
     }
 
+    const image = showAnswer
+        ? currentQuestion.answerImage
+        : currentQuestion.questionImage;
+    const text = showAnswer
+        ? currentQuestion.answer
+        : currentQuestion.question;
+
     return (
         <div
-            className="
-                fixed
-                inset-0
-                z-50
-                flex
-                items-center
-                justify-center
-                bg-black/60
-                backdrop-blur-sm
-                p-4
-            "
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="question-modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
         >
-            <GlassCard
-                className="
-                    flex
-                    w-full
-                    max-w-6xl
-                    max-h-[90vh]
-                    flex-col
-                    items-center
-                    rounded-3xl
-                    p-4
-                    sm:p-8
-                    lg:p-12
-                    gap-4
-                    sm:gap-6
-                "
-            >
-                <h2
-                    className="
-                        text-center
-                        text-4xl
-                        sm:text-6xl
-                        lg:text-8xl
-                        font-black
-                        tracking-wide
-                        text-amber-400
-                    "
-                >
-                    Pregunta x{currentMultiplier}
-                </h2>
-
-                {currentQuestion.title && (
-                    <h3
-                        className="
-                            text-center
-                            text-2xl
-                            sm:text-3xl
-                            lg:text-4xl
-                            font-bold
-                            text-slate-300
-                        "
+            <GlassCard className="grid h-[90dvh] max-h-[calc(100dvh-2rem)] w-full max-w-6xl min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] gap-3 overflow-hidden rounded-3xl p-4 sm:gap-4 sm:p-6">
+                <header className="min-w-0 text-center">
+                    <h2
+                        id="question-modal-title"
+                        className="text-[clamp(2rem,5dvh,4rem)] font-black leading-tight tracking-wide text-amber-400"
                     >
-                        {currentQuestion.title}
-                    </h3>
-                )}
-
-                {isSpecialCategory ? (
-                    <h3
-                        className="
-                            text-center
-                            text-5xl
-                            sm:text-6xl
-                            lg:text-7xl
-                            font-black
-                            tracking-wide
-                            text-amber-400
-                        "
-                    >
-                        {questionCategory?.name}
-                    </h3>
-                ) : (
-                    <>
-                        {currentQuestion.questionImage &&
-                            !showAnswer && (
-                            <div
-                                className="
-                                    flex
-                                    min-h-0
-                                    flex-1
-                                    items-center
-                                    justify-center
-                                    w-full
-                                "
-                            >
-                                <img
-                                    src={getImageUrl(
-                                        currentQuestion.questionImage,
-                                    )}
-                                    alt="Pregunta"
-                                    className="
-                                        max-h-full
-                                        max-w-full
-                                        w-auto
-                                        h-auto
-                                        rounded-2xl
-                                        object-contain
-                                    "
-                                />
-                            </div>
-                        )}
-
-                        {currentQuestion.question && (
-                            <p
-                                className="
-                                    text-center
-                                    text-4xl
-                                    sm:text-5xl
-                                    lg:text-6xl
-                                    font-semibold
-                                    leading-relaxed
-                                    text-slate-100
-                                "
-                            >
-                                {currentQuestion.question}
-                            </p>
-                        )}
-                    </>
-                )}
-
-                <div
-                    className="
-                        h-px
-                        w-full
-                        bg-white/10
-                    "
-                />
-
-                <AnimatePresence mode="wait">
-                    {showAnswer && (
-                        <motion.div
-                            key="answer"
-                            initial={{
-                                opacity: 0,
-                                y: 20,
-                            }}
-                            animate={{
-                                opacity: 1,
-                                y: 0,
-                            }}
-                            exit={{
-                                opacity: 0,
-                                y: -10,
-                            }}
-                            transition={{
-                                duration: 0.35,
-                            }}
-                            className="
-                                flex
-                                w-full
-                                min-h-0
-                                flex-1
-                                flex-col
-                                items-center
-                                gap-4
-                                rounded-2xl
-                                border
-                                border-emerald-400/30
-                                bg-emerald-500/10
-                                p-4
-                                sm:p-6
-                                lg:p-8
-                            "
-                        >
-                            <h3
-                                className="
-                                    text-4xl
-                                    sm:text-5xl
-                                    lg:text-6xl
-                                    font-bold
-                                    text-emerald-400
-                                "
-                            >
-                                Respuesta
-                            </h3>
-
-                            {currentQuestion.answerImage && (
-                                <div
-                                    className="
-                                        flex
-                                        min-h-0
-                                        flex-1
-                                        items-center
-                                        justify-center
-                                        w-full
-                                    "
-                                >
-                                    <img
-                                        src={getImageUrl(
-                                            currentQuestion.answerImage,
-                                        )}
-                                        alt="Respuesta"
-                                        className="
-                                            max-h-full
-                                            max-w-full
-                                            w-auto
-                                            h-auto
-                                            rounded-xl
-                                            object-contain
-                                        "
-                                    />
-                                </div>
-                            )}
-
-                            {currentQuestion.answer && (
-                                <p
-                                    className="
-                                        text-center
-                                        text-5xl
-                                        sm:text-6xl
-                                        lg:text-7xl
-                                        font-semibold
-                                        text-slate-100
-                                    "
-                                >
-                                    {currentQuestion.answer}
-                                </p>
-                            )}
-                        </motion.div>
+                        Punteo x{currentMultiplier}
+                    </h2>
+                    {currentQuestion.title && (
+                        <h3 className="max-h-[12dvh] overflow-y-auto break-words text-xl font-bold leading-tight text-slate-300 sm:text-2xl lg:text-3xl">
+                            {currentQuestion.title}
+                        </h3>
                     )}
-                </AnimatePresence>
+                </header>
 
-                {isSpecialCategory ? (
+                <div className="relative min-h-0 min-w-0 overflow-hidden">
+                    {isSpecialCategory ? (
+                        <div className="flex h-full items-center justify-center overflow-auto">
+                            <h3 className="text-center text-4xl font-black text-amber-400 sm:text-6xl">
+                                {questionCategory?.name}
+                            </h3>
+                        </div>
+                    ) : (
+                        <AnimatePresence mode="wait" initial={false}>
+                            <motion.div
+                                key={showAnswer ? "answer" : "question"}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute inset-0 flex min-h-0 min-w-0 flex-col gap-3"
+                            >
+                                {image && (
+                                    <div className="relative min-h-0 w-full flex-1">
+                                        <img
+                                            src={getImageUrl(image)}
+                                            alt={showAnswer ? "Respuesta" : "Pregunta"}
+                                            className="absolute inset-0 h-full w-full object-contain"
+                                        />
+                                    </div>
+                                )}
+                                {text && (
+                                    <p
+                                        className={`min-h-0 overflow-y-auto break-words text-center text-2xl font-semibold leading-snug text-slate-100 sm:text-3xl lg:text-4xl ${image ? "max-h-[35%] shrink-0" : "flex-1"}`}
+                                    >
+                                        {text}
+                                    </p>
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
+                    )}
+                </div>
+
+                <footer className="flex justify-center">
                     <button
-                        onClick={closeQuestion}
-                        className="
-                            text-3xl
-                            sm:text-4xl
-                            lg:text-6xl
-                            rounded-xl
-                            bg-amber-400
-                            px-6
-                            sm:px-8
-                            py-2
-                            sm:py-3
-                            font-bold
-                            text-slate-950
-                            transition-all
-                            hover:scale-105
-                            shrink-0
-                        "
+                        onClick={isSpecialCategory || showAnswer
+                            ? closeQuestion
+                            : () => setShowAnswer(true)}
+                        className="shrink-0 rounded-xl bg-amber-400 px-6 py-2 text-2xl font-bold leading-tight text-slate-950 transition-colors hover:bg-amber-300 sm:px-8 sm:py-3 sm:text-3xl lg:text-4xl"
                     >
-                        Cerrar
+                        {isSpecialCategory || showAnswer ? "Cerrar" : "Mostrar respuesta"}
                     </button>
-                ) : !showAnswer ? (
-                    <button
-                        onClick={() =>
-                            setShowAnswer(true)
-                        }
-                        className="
-                            text-3xl
-                            sm:text-4xl
-                            lg:text-6xl
-                            rounded-xl
-                            bg-amber-400
-                            px-6
-                            sm:px-8
-                            py-2
-                            sm:py-3
-                            font-bold
-                            text-slate-950
-                            transition-all
-                            hover:scale-105
-                            shrink-0
-                        "
-                    >
-                        Mostrar respuesta
-                    </button>
-                ) : (
-                    <button
-                        onClick={closeQuestion}
-                        className="
-                            text-3xl
-                            sm:text-4xl
-                            lg:text-6xl
-                            rounded-xl
-                            bg-emerald-500
-                            px-6
-                            sm:px-8
-                            py-2
-                            sm:py-3
-                            font-bold
-                            transition-all
-                            hover:scale-105
-                            shrink-0
-                        "
-                    >
-                        Cerrar
-                    </button>
-                )}
+                </footer>
             </GlassCard>
         </div>
     );

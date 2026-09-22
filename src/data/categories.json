@@ -8,14 +8,14 @@
     {
         "id": 2,
         "name": "Aritmética",
-        "color": "#2563EB",
+        "color": "#E8EB25",
         "icon": "➕"
     },
     {
         "id": 3,
-        "name": "Secuencias",
+        "name": "Ecuaciones",
         "color": "#7C3AED",
-        "icon": "∞"
+        "icon": "="
     },
     {
         "id": 4,
@@ -23,16 +23,10 @@
         "color": "#059669",
         "icon": "△"
     },
-    {
+        {
         "id": 5,
-        "name": "Sudoku",
-        "color": "#F59E0B",
-        "icon": "🧩"
-    },
-    {
-        "id": 6,
-        "name": "Crucigrama",
-        "color": "#F59E0B",
-        "icon": "✏️"
+        "name": "Teoria",
+        "color": "#0533F7",
+        "icon": "🧠"
     }
 ]

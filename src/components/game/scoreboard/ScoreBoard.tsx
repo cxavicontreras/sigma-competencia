@@ -8,8 +8,8 @@ export function ScoreBoard() {
         (state) => state.teams,
     );
 
-    const currentTeam = useTeamStore(
-        (state) => state.currentTeam,
+    const rankedTeams = [...teams].sort(
+        (a, b) => b.score - a.score,
     );
 
     const teamCount = teams.length;
@@ -33,7 +33,7 @@ export function ScoreBoard() {
             style={{ gap: `${gap}px` }}
         >
 
-            {teams.map((team, index) => (
+            {rankedTeams.map((team) => (
 
                 <TeamCard
 
@@ -42,10 +42,6 @@ export function ScoreBoard() {
                     team={team}
 
                     teamCount={teamCount}
-
-                    active={
-                        index === currentTeam
-                    }
 
                 />
 

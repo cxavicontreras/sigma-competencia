@@ -1,20 +1,39 @@
 [
     {
         "id": 1,
-        "name": "Euler",
+        "name": "Grupo 1",
         "score": 0,
         "multiplier": 1
     },
     {
         "id": 2,
-        "name": "Gauss",
+        "name": "Grupo 2",
         "score": 0,
         "multiplier": 1
     },
     {
         "id": 3,
-        "name": "Newton",
+        "name": "Grupo 3",
+        "score": 0,
+        "multiplier": 1
+    },
+    {
+        "id": 4,
+        "name": "Grupo 4",
+        "score": 0,
+        "multiplier": 1
+    },
+    {
+        "id": 5,
+        "name": "Grupo 5",
+        "score": 0,
+        "multiplier": 1
+    },
+    {
+        "id": 6,
+        "name": "Grupo 6",
         "score": 0,
         "multiplier": 1
     }
+
 ]

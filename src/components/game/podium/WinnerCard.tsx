@@ -1,158 +1,70 @@
 import { motion } from "framer-motion";
-
 import type { Team } from "../../../types";
 
 type Props = {
     team: Team;
     position: number;
-    highlight?: boolean;
 };
 
-const MEDAL_COLORS = [
-    "text-amber-300",
-    "text-slate-300",
-    "text-amber-600",
+const PODIUM_STYLES = [
+    {
+        text: "text-amber-300",
+        card: "border-amber-400/50 bg-amber-400/10",
+        column: "from-[#A66B0A] to-[#FFD76A]",
+        height: "h-[clamp(5rem,18dvh,12rem)]",
+        order: "order-2",
+    },
+    {
+        text: "text-slate-200",
+        card: "border-slate-300/50 bg-slate-300/10",
+        column: "from-[#717D8C] to-[#E2E8F0]",
+        height: "h-[clamp(4rem,14dvh,9rem)]",
+        order: "order-1",
+    },
+    {
+        text: "text-orange-300",
+        card: "border-orange-400/50 bg-orange-400/10",
+        column: "from-[#80451F] to-[#CD8A50]",
+        height: "h-[clamp(3rem,10dvh,7rem)]",
+        order: "order-3",
+    },
+    {
+        text: "text-sky-300",
+        card: "border-sky-400/50 bg-sky-400/10",
+        column: "from-[#264761] to-[#6CA6CD]",
+        height: "h-[clamp(2rem,7dvh,5rem)]",
+        order: "order-4",
+    },
 ];
 
-const MEDAL_EMOJIS = ["1️⃣", "2️⃣", "3️⃣"];
+export function WinnerCard({ team, position }: Props) {
+    const style = PODIUM_STYLES[position] ?? PODIUM_STYLES[3];
 
-const PODIUM_HEIGHTS = [
-    "h-48",
-    "h-36",
-    "h-28",
-];
-
-const PODIUM_ORDERS = [
-    "order-2",
-    "order-1",
-    "order-3",
-];
-
-export function WinnerCard({
-    team,
-    position,
-    highlight,
-}: Props) {
     return (
         <motion.div
-            initial={{
-                opacity: 0,
-                y: 40,
-            }}
-            animate={{
-                opacity: 1,
-                y: 0,
-            }}
-            transition={{
-                delay: position * 0.2 + 0.3,
-                duration: 0.5,
-            }}
-            className={`
-                flex
-                flex-col
-                items-center
-                gap-4
-                ${highlight ? "scale-110" : "scale-90"}
-                ${position < 3 ? PODIUM_ORDERS[position] : ""}
-            `}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: position * 0.2 + 0.3, duration: 0.5 }}
+            className={`flex min-w-0 flex-1 flex-col items-center gap-3 ${style.order}`}
         >
-            <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{
-                    delay:
-                        position * 0.2 +
-                        0.5,
-                    type: "spring",
-                    damping: 10,
-                    stiffness: 150,
-                }}
-                className={`
-                    flex
-                    h-20
-                    w-20
-                    items-center
-                    justify-center
-                    rounded-full
-                    text-5xl
-                    ${MEDAL_COLORS[position] ?? "text-slate-400"}
-                `}
-            >
-                {MEDAL_EMOJIS[position] ??
-                    "🏅"}
-            </motion.div>
-
-            <div
-                className={`
-                    flex
-                    w-44
-                    flex-col
-                    items-center
-                    gap-2
-                    rounded-2xl
-                    border
-                    px-6
-                    py-4
-                    ${
-                        highlight
-                            ? "border-amber-400/40 bg-amber-400/10"
-                            : "border-slate-600/30 bg-slate-800/50"
-                    }
-                `}
-            >
-                <h3
-                    className={`
-                        text-center
-                        text-3xl
-                        font-bold
-                        ${
-                            highlight
-                                ? "text-amber-400"
-                                : "text-slate-100"
-                        }
-                    `}
-                >
+            <div className={`flex w-full min-w-0 flex-col items-center gap-1 rounded-2xl border px-3 py-3 ${style.card}`}>
+                <span className={`text-3xl font-black sm:text-4xl ${style.text}`}>
+                    {position + 1}.º
+                </span>
+                <h3 className={`w-full break-words text-center text-xl font-bold sm:text-2xl ${style.text}`}>
                     {team.name}
                 </h3>
-
-                <p
-                    className={`
-                        text-4xl
-                        font-black
-                        ${
-                            highlight
-                                ? "text-amber-300"
-                                : "text-slate-300"
-                        }
-                    `}
-                >
+                <p className={`text-3xl font-black sm:text-4xl ${style.text}`}>
                     {team.score}
                 </p>
-
-                <p
-                    className="
-                        text-sm
-                        text-slate-400
-                    "
-                >
-                    puntos
-                </p>
+                <p className="text-sm text-slate-300">puntos</p>
             </div>
-
-            {position < 3 && (
-                <div
-                    className={`
-                        w-32
-                        rounded-t-lg
-                        ${PODIUM_HEIGHTS[position]}
-                        ${
-                            highlight
-                                ? "bg-gradient-to-t from-amber-400/30 to-amber-400/5"
-                                : "bg-gradient-to-t from-slate-600/30 to-slate-600/5"
-                        }
-                    `}
-                />
-            )}
+            <motion.div
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ delay: position * 0.2 + 0.3, duration: 0.5 }}
+                className={`w-4/5 origin-bottom rounded-t-lg bg-gradient-to-t ${style.height} ${style.column}`}
+            />
         </motion.div>
     );
 }

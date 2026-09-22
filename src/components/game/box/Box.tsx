@@ -58,9 +58,14 @@ export function Box({
                 transformStyle: "preserve-3d",
             }}
             className={`
-                aspect-square
+                flex
+                h-full
+                min-h-0
+                items-center
+                justify-center
+                gap-2
                 w-full
-                max-w-15
+                min-w-0
                 rounded-2xl
                 border
                 border-white/10
@@ -97,7 +102,7 @@ export function Box({
         >
             <span
                 className="
-                    text-4xl
+                    text-4xl xl:text-5xl 2xl:text-6xl
                     font-extrabold
                     text-slate-100
                     tracking-wider
@@ -107,7 +112,7 @@ export function Box({
             </span>
             <span
                 className={`
-                    text-xs
+                    text-xl xl:text-2xl 2xl:text-3xl
                     font-bold
                     ${MULTIPLIER_COLORS[multiplier] ?? "text-slate-400"}
                 `}

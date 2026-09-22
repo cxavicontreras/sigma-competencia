@@ -19,8 +19,8 @@ export function Podium({ teams, onRestart }: Props) {
         [teams],
     );
 
-    const topThree = sorted.slice(0, 3);
-    const rest = sorted.slice(3);
+    const topFour = sorted.slice(0, 4);
+    const rest = sorted.slice(4);
 
     return (
         <motion.div
@@ -34,8 +34,9 @@ export function Podium({ teams, onRestart }: Props) {
                 flex
                 flex-col
                 items-center
-                justify-center
-                gap-10
+                justify-start
+                overflow-y-auto
+                gap-4
                 bg-[#020617]
                 p-8
             "
@@ -52,7 +53,7 @@ export function Podium({ teams, onRestart }: Props) {
                     stiffness: 150,
                 }}
                 className="
-                    text-7xl
+                    text-4xl sm:text-5xl
                     font-black
                     tracking-wide
                     text-amber-400
@@ -65,15 +66,19 @@ export function Podium({ teams, onRestart }: Props) {
                 className="
                     flex
                     items-end
-                    gap-6
+                    w-full
+                    max-w-4xl
+                    shrink-0
+                    border-b-2
+                    border-slate-500/50
+                    gap-3 sm:gap-6
                 "
             >
-                {topThree.map((team, index) => (
+                {topFour.map((team, index) => (
                     <WinnerCard
                         key={team.id}
                         team={team}
                         position={index}
-                        highlight={index === 0}
                     />
                 ))}
             </div>

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 import { ZigmaLogo } from "../../../branding";
 import { GlassCard } from "../../ui";
-import { TurnIndicator } from "./TurnIndicator";
+
 
 export function Header() {
     return (
@@ -45,7 +45,7 @@ export function Header() {
 
                     </div>
 
-                    <TurnIndicator/>
+
 
                 </div>
 

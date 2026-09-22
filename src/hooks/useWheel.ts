@@ -68,7 +68,7 @@ export function useWheel() {
         setIsSpinning(true);
         setSpinning(true);
 
-        const finalNumber = WheelService.spin(30, usedBoxes);
+        const finalNumber = WheelService.spin(20, usedBoxes);
 
         finalNumberRef.current = finalNumber;
 
@@ -83,7 +83,7 @@ export function useWheel() {
             if (!spinningRef.current) return;
 
             setDisplayNumber(
-                WheelService.spin(30)
+                WheelService.spin(20)
             );
 
         }, 70);
