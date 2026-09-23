@@ -2,14 +2,25 @@ type WheelControlsProps = {
 
     spinning: boolean;
 
+    noBoxes?: boolean;
+
     onSpin: () => void;
 
 };
 
 export function WheelControls({
     spinning,
+    noBoxes = false,
     onSpin,
 }: WheelControlsProps) {
+
+    const disabled = spinning || noBoxes;
+
+    const label = spinning
+        ? "GIRANDO..."
+        : noBoxes
+            ? "SIN CAJAS"
+            : "GIRAR";
 
     return (
 
@@ -17,7 +28,7 @@ export function WheelControls({
 
             onClick={onSpin}
 
-            disabled={spinning}
+            disabled={disabled}
 
             className="
                 rounded-xl
@@ -34,9 +45,7 @@ export function WheelControls({
 
         >
 
-            {spinning
-                ? "GIRANDO..."
-                : "GIRAR"}
+            {label}
 
         </button>
 

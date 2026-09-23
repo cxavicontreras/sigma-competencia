@@ -4,6 +4,20 @@ import type { Team } from "../types";
 
 import { TeamService } from "../services";
 
+function nextDefaultName(teams: Team[]): string {
+    const existing = new Set(
+        teams.map((team) => team.name),
+    );
+
+    let n = 1;
+
+    while (existing.has(`Equipo ${n}`)) {
+        n++;
+    }
+
+    return `Equipo ${n}`;
+}
+
 type TeamState = {
 
     teams: Team[];
@@ -96,19 +110,40 @@ export const useTeamStore = create<TeamState & TeamActions>((set) => ({
 
     nextTeam: () =>
 
-        set((state) => ({
+        set((state) => {
 
-            currentTeam:
+            if (state.teams.length === 0) {
+                return state;
+            }
 
-                 (state.currentTeam + 1) %
+            return {
 
-                state.teams.length,
+                currentTeam:
 
-        })),
+                     (state.currentTeam + 1) %
+
+                    state.teams.length,
+
+            };
+
+        }),
 
     setCurrentTeam: (index) =>
 
-        set({ currentTeam: index }),
+        set((state) => {
+
+            if (state.teams.length === 0) {
+                return { currentTeam: 0 };
+            }
+
+            const clamped = Math.min(
+                Math.max(index, 0),
+                state.teams.length - 1,
+            );
+
+            return { currentTeam: clamped };
+
+        }),
 
     resetScores: () =>
 
@@ -134,7 +169,13 @@ export const useTeamStore = create<TeamState & TeamActions>((set) => ({
 
         set((state) => {
 
-            const team = TeamService.createTeam(name);
+            const safeName =
+                name.trim() !== ""
+                    ? name.trim()
+                    : nextDefaultName(state.teams);
+
+            const team =
+                TeamService.createTeam(safeName);
 
             return {
                 teams: [...state.teams, team],

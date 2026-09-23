@@ -25,26 +25,21 @@ export class QuestionService {
     }
 
     public static initialize(totalBoxes: number): void {
-        if (this.questions.length < totalBoxes) {
-
-}
-
         this.assignments.clear();
+
+        if (totalBoxes <= 0 || this.questions.length === 0) {
+            return;
+        }
 
         const shuffled = [...this.questions]
             .sort(() => Math.random() - 0.5);
 
-        shuffled
-            .slice(0, totalBoxes)
-            .forEach((question, index) => {
-
-                this.assignments.set(
-                    index + 1,
-                    question,
-                );
-
-            });
-
+        for (let i = 0; i < totalBoxes; i++) {
+            this.assignments.set(
+                i + 1,
+                shuffled[i % shuffled.length],
+            );
+        }
     }
 
     public static getQuestionForBox(

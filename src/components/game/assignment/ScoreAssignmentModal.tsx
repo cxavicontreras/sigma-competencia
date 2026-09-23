@@ -28,6 +28,18 @@ export function ScoreAssignmentModal() {
         (state) => state.addUsedBox,
     );
 
+    const setSelectedBox = useCompetitionStore(
+        (state) => state.setSelectedBox,
+    );
+
+    const setPendingPoints = useCompetitionStore(
+        (state) => state.setPendingPoints,
+    );
+
+    const lockInteractions = useCompetitionStore(
+        (state) => state.lockInteractions,
+    );
+
     const teams = useTeamStore(
         (state) => state.teams,
     );
@@ -40,21 +52,32 @@ export function ScoreAssignmentModal() {
         (state) => state.nextTeam,
     );
 
-    function handleAssign(teamIndex: number) {
-        addPointsToTeam(teamIndex, pendingPoints);
+    function resolveTurn() {
         if (selectedBox !== null) {
             addUsedBox(selectedBox);
         }
+        setSelectedBox(null);
+        setPendingPoints(0);
         nextTeam();
         setScoringActive(false);
+        lockInteractions(400);
+    }
+
+    function handleAssign(teamIndex: number) {
+        if (!useCompetitionStore.getState().scoringActive) {
+            return;
+        }
+
+        addPointsToTeam(teamIndex, pendingPoints);
+        resolveTurn();
     }
 
     function handleSkip() {
-        if (selectedBox !== null) {
-            addUsedBox(selectedBox);
+        if (!useCompetitionStore.getState().scoringActive) {
+            return;
         }
-        nextTeam();
-        setScoringActive(false);
+
+        resolveTurn();
     }
 
     return (
@@ -127,42 +150,54 @@ export function ScoreAssignmentModal() {
                             recibe los puntos
                         </p>
 
-                        <div
-                            className="
-                                flex
-                                flex-wrap
-                                justify-center
-                                gap-4
-                            "
-                        >
-                            {teams.map((team, index) => (
-                                <button
-                                    key={team.id}
-                                    onClick={() =>
-                                        handleAssign(index)
-                                    }
-                                    className="
-                                        rounded-xl
-                                        border
-                                        border-amber-400/30
-                                        bg-amber-400/10
-                                        px-8
-                                        sm:px-10
-                                        py-4
-                                        sm:py-5
-                                        font-bold
-                                        text-amber-400
-                                        text-3xl
-                                        sm:text-4xl
-                                        transition-all
-                                        hover:scale-105
-                                        hover:bg-amber-400/20
-                                    "
-                                >
-                                    {team.name}
-                                </button>
-                            ))}
-                        </div>
+                        {teams.length === 0 ? (
+                            <p
+                                className="
+                                    text-2xl
+                                    text-slate-400
+                                "
+                            >
+                                No hay equipos
+                                registrados
+                            </p>
+                        ) : (
+                            <div
+                                className="
+                                    flex
+                                    flex-wrap
+                                    justify-center
+                                    gap-4
+                                "
+                            >
+                                {teams.map((team, index) => (
+                                    <button
+                                        key={team.id}
+                                        onClick={() =>
+                                            handleAssign(index)
+                                        }
+                                        className="
+                                            rounded-xl
+                                            border
+                                            border-amber-400/30
+                                            bg-amber-400/10
+                                            px-8
+                                            sm:px-10
+                                            py-4
+                                            sm:py-5
+                                            font-bold
+                                            text-amber-400
+                                            text-3xl
+                                            sm:text-4xl
+                                            transition-all
+                                            hover:scale-105
+                                            hover:bg-amber-400/20
+                                        "
+                                    >
+                                        {team.name}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
 
                         <button
                             onClick={handleSkip}

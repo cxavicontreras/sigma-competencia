@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GlassCard } from "../../ui";
 import { useCompetitionStore } from "../../../stores";
 import { CategoryService } from "../../../services";
+import { useClickCooldown } from "../../../hooks/useClickCooldown";
 
 function getImageUrl(filename: string): string {
     return new URL(
@@ -36,6 +37,12 @@ export function QuestionModal() {
         (state) => state.currentMultiplier,
     );
 
+    const lockInteractions = useCompetitionStore(
+        (state) => state.lockInteractions,
+    );
+
+    const cooldown = useClickCooldown();
+
     useEffect(() => {
         setShowAnswer(false);
     }, [currentQuestion]);
@@ -63,6 +70,17 @@ export function QuestionModal() {
         setPendingPoints(points);
         setCurrentQuestion(null);
         setScoringActive(true);
+        lockInteractions(400);
+    }
+
+    function handleAction() {
+        cooldown(() => {
+            if (isSpecialCategory || showAnswer) {
+                closeQuestion();
+            } else {
+                setShowAnswer(true);
+            }
+        });
     }
 
     const image = showAnswer
@@ -134,9 +152,7 @@ export function QuestionModal() {
 
                 <footer className="flex justify-center">
                     <button
-                        onClick={isSpecialCategory || showAnswer
-                            ? closeQuestion
-                            : () => setShowAnswer(true)}
+                        onClick={handleAction}
                         className="shrink-0 rounded-xl bg-amber-400 px-6 py-2 text-2xl font-bold leading-tight text-slate-950 transition-colors hover:bg-amber-300 sm:px-8 sm:py-3 sm:text-3xl lg:text-4xl"
                     >
                         {isSpecialCategory || showAnswer ? "Cerrar" : "Mostrar respuesta"}

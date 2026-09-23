@@ -21,6 +21,8 @@ export function Wheel() {
 
         isSpinning,
 
+        canSpin,
+
         spinWheel,
 
         handleAnimationComplete,
@@ -99,6 +101,7 @@ export function Wheel() {
 
             <WheelControls
                 spinning={isSpinning}
+                noBoxes={!canSpin}
                 onSpin={spinWheel}
             />
 

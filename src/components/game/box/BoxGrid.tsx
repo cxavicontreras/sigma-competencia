@@ -25,17 +25,26 @@ export function BoxGrid({ onBoxSelect }: BoxGridProps) {
     state => state.usedBoxes
 );
 
+    const columns = Math.max(
+        1,
+        Math.ceil(
+            Math.sqrt(COMPETITION.totalBoxes),
+        ),
+    );
+
     return (
         <section
             className="
                 grid
                 h-full
-                grid-cols-5
                 auto-rows-fr
                 gap-3
                 p-2
                 items-stretch
             "
+            style={{
+                gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+            }}
         >
             {boxes.map((number, index) => (
                 <Box

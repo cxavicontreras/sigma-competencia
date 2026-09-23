@@ -43,9 +43,9 @@ export function Splash() {
                     }}
                     className="
                         mt-8
-                        h-[2px]
+                        h-0.5
                         rounded-full
-                        bg-gradient-to-r
+                        bg-linear-to-r
                         from-transparent
                         via-amber-400
                         to-transparent

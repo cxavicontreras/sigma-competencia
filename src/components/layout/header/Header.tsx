@@ -49,10 +49,6 @@ export function Header() {
 
                 </div>
 
-                <span className="text-sm text-slate-400">
-                    Sistema de Competencia
-                </span>
-
             </GlassCard>
         </motion.header>
     );

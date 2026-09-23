@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { GlassCard } from "../../ui";
 import { useTeamStore } from "../../../stores";
+import { useClickCooldown } from "../../../hooks/useClickCooldown";
 
 const MAX_TEAMS = 12;
 
@@ -34,6 +35,8 @@ export function TeamManagementModal({
 
     const [editName, setEditName] =
         useState("");
+
+    const cooldown = useClickCooldown();
 
     function handleAdd() {
         if (teams.length >= MAX_TEAMS) return;
@@ -239,8 +242,10 @@ export function TeamManagementModal({
 
                                         <button
                                             onClick={() =>
-                                                handleDelete(
-                                                    team.id,
+                                                cooldown(() =>
+                                                    handleDelete(
+                                                        team.id,
+                                                    ),
                                                 )
                                             }
                                             className="
@@ -263,7 +268,9 @@ export function TeamManagementModal({
                         </div>
 
                         <button
-                            onClick={handleAdd}
+                            onClick={() =>
+                                cooldown(handleAdd)
+                            }
                             disabled={
                                 teams.length >=
                                 MAX_TEAMS

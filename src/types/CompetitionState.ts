@@ -23,4 +23,6 @@ export interface CompetitionState {
 
     pendingPoints: number;
 
+    interactionLockUntil: number;
+
 }

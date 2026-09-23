@@ -1,14 +1,12 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
     WheelService,
-    QuestionService,
-    CategoryService,
 } from "../services";
 
+import { COMPETITION } from "../config/competition";
 import { useCompetitionStore } from "../stores";
-
-const REVEAL_DELAY = 2200;
+import { useQuestionReveal } from "./useQuestionReveal";
 
 export function useWheel() {
 
@@ -29,48 +27,70 @@ export function useWheel() {
     const spinningRef =
         useRef(false);
 
-    const revealTimerRef =
-        useRef<number | null>(null);
-
-    const setSelectedBox = useCompetitionStore(
-        state => state.setSelectedBox
-    );
-
-    const setCurrentQuestion = useCompetitionStore(
-        state => state.setCurrentQuestion
-    );
-
-    const setCurrentMultiplier = useCompetitionStore(
-        state => state.setCurrentMultiplier
-    );
-
-    const setRevealingCategory = useCompetitionStore(
-        state => state.setRevealingCategory
-    );
-
     const setSpinning = useCompetitionStore(
         state => state.setSpinning
     );
+
     const usedBoxes = useCompetitionStore(
         state => state.usedBoxes
     );
 
-    const boxMultipliers = useCompetitionStore(
-        state => state.boxMultipliers
+    const finished = useCompetitionStore(
+        state => state.finished
     );
+
+    const totalBoxes = COMPETITION.totalBoxes;
+
+    const canSpin = usedBoxes.length < totalBoxes;
+
+    const { reveal: revealBox, cancel: cancelReveal } =
+        useQuestionReveal();
+
+    useEffect(
+        () => () => {
+            if (intervalRef.current !== null) {
+                clearInterval(intervalRef.current);
+            }
+            cancelReveal();
+        },
+        [cancelReveal],
+    );
+
+    useEffect(() => {
+        if (!finished) {
+            setDisplayNumber(null);
+            finalNumberRef.current = null;
+        }
+    }, [finished]);
 
     function spinWheel() {
 
-        if (isSpinning) return;
+        const state = useCompetitionStore.getState();
+
+        if (isSpinning || spinningRef.current) return;
+        if (state.currentQuestion) return;
+        if (state.revealingCategory) return;
+        if (state.scoringActive) return;
+        if (Date.now() < state.interactionLockUntil) return;
+        if (state.usedBoxes.length >= totalBoxes) return;
+
+        let finalNumber: number;
+
+        try {
+            finalNumber = WheelService.spin(
+                totalBoxes,
+                state.usedBoxes,
+            );
+        } catch {
+            return;
+        }
 
         spinningRef.current = true;
 
+        finalNumberRef.current = finalNumber;
+
         setIsSpinning(true);
         setSpinning(true);
-
-        const finalNumber = WheelService.spin(20, usedBoxes);
-
-        finalNumberRef.current = finalNumber;
 
         setRotation(previous =>
             previous +
@@ -82,8 +102,14 @@ export function useWheel() {
 
             if (!spinningRef.current) return;
 
+            const { usedBoxes: currentUsed } =
+                useCompetitionStore.getState();
+
             setDisplayNumber(
-                WheelService.spin(20)
+                WheelService.spin(
+                    totalBoxes,
+                    currentUsed,
+                ),
             );
 
         }, 70);
@@ -91,6 +117,10 @@ export function useWheel() {
     }
 
     function handleAnimationComplete() {
+
+        if (finalNumberRef.current === null) {
+            return;
+        }
 
         spinningRef.current = false;
 
@@ -101,50 +131,14 @@ export function useWheel() {
 
         }
 
-        if (finalNumberRef.current === null) {
-            return;
-        }
+        const number = finalNumberRef.current;
+        finalNumberRef.current = null;
 
-        setDisplayNumber(finalNumberRef.current);
+        setDisplayNumber(number);
 
-        setSelectedBox(finalNumberRef.current);
-
-        setCurrentMultiplier(
-            boxMultipliers[finalNumberRef.current] ?? 1
-        );
-
-        const question =
-            QuestionService.getQuestionForBox(
-                finalNumberRef.current
-            );
-
-        if (question) {
-
-            const category = CategoryService.getById(
-                question.categoryId,
-            );
-
-            if (category) {
-                setRevealingCategory(category);
-            }
-
-            revealTimerRef.current = window.setTimeout(() => {
-
-                setRevealingCategory(null);
-                setCurrentQuestion(question);
-
-                revealTimerRef.current = null;
-
-            }, REVEAL_DELAY);
-
-        } else {
-
-            setCurrentQuestion(null);
-
-        }
+        revealBox(number);
 
         setSpinning(false);
-
         setIsSpinning(false);
 
     }
@@ -154,6 +148,7 @@ export function useWheel() {
         rotation,
         displayNumber,
         isSpinning,
+        canSpin,
 
         spinWheel,
         handleAnimationComplete,

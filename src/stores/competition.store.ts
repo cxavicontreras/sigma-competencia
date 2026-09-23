@@ -8,6 +8,7 @@ import type {
 
 import { generateBoxMultipliers } from "../config/boxMultipliers";
 import { COMPETITION } from "../config/competition";
+import { QuestionService } from "../services";
 
 type CompetitionActions = {
 
@@ -51,6 +52,10 @@ type CompetitionActions = {
         points: number
     ) => void;
 
+    lockInteractions: (
+        ms: number
+    ) => void;
+
 };
 
 export const useCompetitionStore = create<
@@ -76,6 +81,8 @@ export const useCompetitionStore = create<
     scoringActive: false,
 
     pendingPoints: 0,
+
+    interactionLockUntil: 0,
 
     setSelectedBox: (box) =>
         set({
@@ -109,7 +116,11 @@ export const useCompetitionStore = create<
             finished: value,
         }),
 
-    resetCompetition: () =>
+    resetCompetition: () => {
+        QuestionService.initialize(
+            COMPETITION.totalBoxes,
+        );
+
         set({
             selectedBox: null,
             currentQuestion: null,
@@ -123,7 +134,9 @@ export const useCompetitionStore = create<
             revealingCategory: null,
             scoringActive: false,
             pendingPoints: 0,
-        }),
+            interactionLockUntil: 0,
+        });
+    },
 
     setScoringActive: (active) =>
         set({
@@ -135,17 +148,29 @@ export const useCompetitionStore = create<
             pendingPoints: points,
         }),
 
+    lockInteractions: (ms) =>
+        set({
+            interactionLockUntil:
+                Date.now() + ms,
+        }),
+
     setSpinning: (value) =>
         set({
             spinning: value,
         }),
 
     addUsedBox: (box) =>
-        set((state) => ({
-            usedBoxes: [
-                ...state.usedBoxes,
-                box,
-            ],
-        })),
+        set((state) => {
+            if (state.usedBoxes.includes(box)) {
+                return state;
+            }
+
+            return {
+                usedBoxes: [
+                    ...state.usedBoxes,
+                    box,
+                ],
+            };
+        }),
 
 }));
