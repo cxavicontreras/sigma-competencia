@@ -2,13 +2,53 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 import { GlassCard } from "../ui";
-import { ScoreBoard } from "../game/scoreboard";
+import {
+    ScoreBoard,
+    ScoreAdjustModal,
+} from "../game/scoreboard";
 import { TeamManagementModal } from "../game/team";
+import {
+    useCompetitionStore,
+    useTeamStore,
+} from "../../stores";
 
 export function Sidebar() {
 
     const [showManagement, setShowManagement] =
         useState(false);
+
+    const [showAdjust, setShowAdjust] =
+        useState(false);
+
+    const spinning = useCompetitionStore(
+        (state) => state.spinning,
+    );
+
+    const revealingCategory =
+        useCompetitionStore(
+            (state) => state.revealingCategory,
+        );
+
+    const currentQuestion =
+        useCompetitionStore(
+            (state) => state.currentQuestion,
+        );
+
+    const scoringActive =
+        useCompetitionStore(
+            (state) => state.scoringActive,
+        );
+
+    const teamCount = useTeamStore(
+        (state) => state.teams.length,
+    );
+
+    const adjustDisabled =
+        spinning ||
+        revealingCategory !== null ||
+        currentQuestion !== null ||
+        scoringActive ||
+        teamCount === 0;
 
     return (
 
@@ -60,24 +100,56 @@ export function Sidebar() {
                         Equipos
                     </h2>
 
-                    <button
-                        onClick={() =>
-                            setShowManagement(true)
-                        }
+                    <div
                         className="
-                            rounded-lg
-                            bg-slate-700
-                            px-3
-                            py-1
-                            text-xs
-                            font-bold
-                            transition-all
-                            hover:scale-105
-                            hover:bg-slate-600
+                            flex
+                            items-center
+                            gap-1
                         "
                     >
-                        Gestionar
-                    </button>
+                        <button
+                            onClick={() =>
+                                setShowAdjust(true)
+                            }
+                            disabled={adjustDisabled}
+                            title="Ajustar puntaje"
+                            aria-label="Ajustar puntaje"
+                            className="
+                                rounded-lg
+                                bg-slate-700
+                                px-2
+                                py-1
+                                text-sm
+                                font-black
+                                transition-all
+                                hover:scale-105
+                                hover:bg-slate-600
+                                disabled:opacity-30
+                                disabled:hover:scale-100
+                            "
+                        >
+                            ✎
+                        </button>
+
+                        <button
+                            onClick={() =>
+                                setShowManagement(true)
+                            }
+                            className="
+                                rounded-lg
+                                bg-slate-700
+                                px-3
+                                py-1
+                                text-xs
+                                font-bold
+                                transition-all
+                                hover:scale-105
+                                hover:bg-slate-600
+                            "
+                        >
+                            Gestionar
+                        </button>
+                    </div>
                 </div>
 
                 <ScoreBoard />
@@ -89,6 +161,11 @@ export function Sidebar() {
                 onClose={() =>
                     setShowManagement(false)
                 }
+            />
+
+            <ScoreAdjustModal
+                open={showAdjust}
+                onClose={() => setShowAdjust(false)}
             />
 
         </motion.aside>

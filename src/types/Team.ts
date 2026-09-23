@@ -9,3 +9,11 @@ export interface Team {
     multiplier: number;
 
 }
+
+export interface ScoreAdjustment {
+
+    teamId: number;
+
+    amount: number;
+
+}

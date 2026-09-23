@@ -47,7 +47,7 @@ export function Header() {
 
 
 
-                </div>
+                </div>  
 
             </GlassCard>
         </motion.header>

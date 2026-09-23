@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { Header, Sidebar } from "../components/layout";
@@ -12,7 +13,12 @@ import { QuestionModal } from "../components/game/question";
 import { CategoryCard } from "../components/game/reveal";
 import { Podium } from "../components/game/podium";
 import { ScoreAssignmentModal } from "../components/game/assignment";
-import { useQuestionReveal } from "../hooks";
+import {
+    QuestionService,
+    CategoryService,
+} from "../services";
+
+const REVEAL_DELAY = 2200;
 
 export function Dashboard() {
 
@@ -22,18 +28,6 @@ export function Dashboard() {
 
     const finished = useCompetitionStore(
         (state) => state.finished,
-    );
-
-    const spinning = useCompetitionStore(
-        (state) => state.spinning,
-    );
-
-    const revealingCategory = useCompetitionStore(
-        (state) => state.revealingCategory,
-    );
-
-    const scoringActive = useCompetitionStore(
-        (state) => state.scoringActive,
     );
 
     const setFinished = useCompetitionStore(
@@ -52,44 +46,85 @@ export function Dashboard() {
         (state) => state.teams,
     );
 
-    const { reveal, cancel: cancelReveal } =
-        useQuestionReveal();
+    const setSelectedBox = useCompetitionStore(
+        (state) => state.setSelectedBox,
+    );
 
-    function handleBoxSelect(box: number) {
-        const state = useCompetitionStore.getState();
+    const setCurrentMultiplier =
+        useCompetitionStore(
+            (state) => state.setCurrentMultiplier,
+        );
 
-        if (state.usedBoxes.includes(box)) return;
-        if (state.currentQuestion) return;
-        if (state.spinning) return;
-        if (state.revealingCategory) return;
-        if (Date.now() < state.interactionLockUntil) return;
+    const setRevealingCategory =
+        useCompetitionStore(
+            (state) =>
+                state.setRevealingCategory,
+        );
 
-        reveal(box);
-    }
+    const setCurrentQuestion =
+        useCompetitionStore(
+            (state) =>
+                state.setCurrentQuestion,
+        );
+
+    const boxMultipliers = useCompetitionStore(
+        (state) => state.boxMultipliers,
+    );
+
+    const usedBoxes = useCompetitionStore(
+        (state) => state.usedBoxes,
+    );
+
+    const handleBoxSelect = useCallback(
+        (box: number) => {
+            if (usedBoxes.includes(box)) return;
+            if (currenQuestion) return;
+
+            setSelectedBox(box);
+            setCurrentMultiplier(
+                boxMultipliers[box] ?? 1,
+            );
+
+            const question =
+                QuestionService.getQuestionForBox(
+                    box,
+                );
+
+            if (question) {
+                const category =
+                    CategoryService.getById(
+                        question.categoryId,
+                    );
+
+                if (category) {
+                    setRevealingCategory(category);
+                }
+
+                setTimeout(() => {
+                    setRevealingCategory(null);
+                    setCurrentQuestion(question);
+                }, REVEAL_DELAY);
+            }
+        },
+        [
+            usedBoxes,
+            currenQuestion,
+            setSelectedBox,
+            setCurrentMultiplier,
+            boxMultipliers,
+            setRevealingCategory,
+            setCurrentQuestion,
+        ],
+    );
 
     function handleFinish() {
-        const state = useCompetitionStore.getState();
-
-        if (state.spinning) return;
-        if (state.currentQuestion) return;
-        if (state.revealingCategory) return;
-        if (state.scoringActive) return;
-
-        cancelReveal();
         setFinished(true);
     }
 
     function handleRestart() {
-        cancelReveal();
         resetCompetition();
         resetScores();
     }
-
-    const finishDisabled =
-        currenQuestion !== null ||
-        spinning ||
-        revealingCategory !== null ||
-        scoringActive;
 
     return (
 
@@ -149,7 +184,6 @@ export function Dashboard() {
 
                     <button
                         onClick={handleFinish}
-                        disabled={finishDisabled}
                         className="
                             rounded-xl
                             bg-red-500/80
@@ -157,13 +191,11 @@ export function Dashboard() {
                             py-3
                             h-10
                             w-50
-                            text-sm
+                             text-sm
                             font-bold
                             transition-all
                             hover:scale-105
                             hover:bg-red-500
-                            disabled:cursor-not-allowed
-                            disabled:opacity-40
                         "
                     >
                         Finalizar competencia

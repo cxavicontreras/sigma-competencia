@@ -1,8 +1,36 @@
 import { create } from "zustand";
 
-import type { Team } from "../types";
+import type {
+    Team,
+    ScoreAdjustment,
+} from "../types";
 
 import { TeamService } from "../services";
+
+export const MAX_SCORE_ADJUSTMENT = 1_000_000;
+
+function clampAdjustment(amount: number): number {
+    if (!Number.isFinite(amount)) {
+        return 0;
+    }
+    return Math.min(
+        Math.max(amount, -MAX_SCORE_ADJUSTMENT),
+        MAX_SCORE_ADJUSTMENT,
+    );
+}
+
+function safeAddScore(
+    current: number,
+    amount: number,
+): number {
+    const next = current + amount;
+    if (!Number.isFinite(next)) {
+        return amount < 0
+            ? -Number.MAX_SAFE_INTEGER
+            : Number.MAX_SAFE_INTEGER;
+    }
+    return next;
+}
 
 function nextDefaultName(teams: Team[]): string {
     const existing = new Set(
@@ -23,6 +51,8 @@ type TeamState = {
     teams: Team[];
 
     currentTeam: number;
+
+    scoreHistory: ScoreAdjustment[];
 
 };
 
@@ -52,13 +82,24 @@ type TeamActions = {
 
     deleteTeam: (id: number) => void;
 
+    adjustScore: (
+        teamId: number,
+        amount: number,
+    ) => boolean;
+
+    undoAdjustScore: () => boolean;
+
 };
 
-export const useTeamStore = create<TeamState & TeamActions>((set) => ({
+export const useTeamStore = create<
+    TeamState & TeamActions
+>((set, get) => ({
 
     teams: TeamService.getAll(),
 
     currentTeam: 0,
+
+    scoreHistory: [],
 
     addPoints: (points) =>
 
@@ -153,6 +194,8 @@ export const useTeamStore = create<TeamState & TeamActions>((set) => ({
 
             currentTeam: 0,
 
+            scoreHistory: [],
+
         }),
 
     reloadTeams: () =>
@@ -162,6 +205,8 @@ export const useTeamStore = create<TeamState & TeamActions>((set) => ({
             teams: TeamService.getAll(),
 
             currentTeam: 0,
+
+            scoreHistory: [],
 
         }),
 
@@ -218,5 +263,84 @@ export const useTeamStore = create<TeamState & TeamActions>((set) => ({
             };
 
         }),
+
+    adjustScore: (teamId, amount) => {
+
+        const normalized = clampAdjustment(amount);
+
+        if (normalized === 0) {
+            return false;
+        }
+
+        const exists = get().teams.some(
+            (team) => team.id === teamId,
+        );
+
+        if (!exists) {
+            return false;
+        }
+
+        set((state) => ({
+            teams: state.teams.map((team) =>
+                team.id === teamId
+                    ? {
+                        ...team,
+
+                        score: safeAddScore(
+                            team.score,
+                            normalized,
+                        ),
+
+                    }
+                    : team,
+            ),
+            scoreHistory: [
+                ...state.scoreHistory,
+                { teamId, amount: normalized },
+            ],
+        }));
+
+        return true;
+
+    },
+
+    undoAdjustScore: () => {
+
+        const state = get();
+
+        const last =
+            state.scoreHistory[
+                state.scoreHistory.length - 1
+            ];
+
+        if (!last) {
+            return false;
+        }
+
+        const teamStillExists = state.teams.some(
+            (team) => team.id === last.teamId,
+        );
+
+        set((current) => ({
+            teams: current.teams.map((team) =>
+                team.id === last.teamId
+                    ? {
+                        ...team,
+
+                        score: safeAddScore(
+                            team.score,
+                            -last.amount,
+                        ),
+
+                    }
+                    : team,
+            ),
+            scoreHistory:
+                current.scoreHistory.slice(0, -1),
+        }));
+
+        return teamStillExists;
+
+    },
 
 }));
