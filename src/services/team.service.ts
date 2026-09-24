@@ -1,12 +1,18 @@
-import teams from "../data/teams.json";
+import { activeVersion } from "../config/versions";
 
 import type { Team } from "../types";
 
 export class TeamService {
 
-    private static teams: Team[] = (
-        teams as Team[]
-    ).map((team) => ({ ...team }));
+    private static teams: Team[] = Array.from(
+        { length: activeVersion?.teamCount ?? 0 },
+        (_, index) => ({
+            id: index + 1,
+            name: `${activeVersion?.teamPrefix} ${index + 1}`,
+            score: 0,
+            multiplier: 1,
+        }),
+    );
 
     private static nextId =
         TeamService.teams.length + 1;

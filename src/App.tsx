@@ -20,7 +20,7 @@ export default function App() {
         initBoxMultipliers();
         const timer = setTimeout(() => {
             setScene("dashboard");
-        }, 3500);
+        }, COMPETITION.splashDuration);
 
         return () => clearTimeout(timer);
     }, [initBoxMultipliers]);

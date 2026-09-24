@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { useQuestionReveal } from "../hooks/useQuestionReveal";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { Header, Sidebar } from "../components/layout";
@@ -13,12 +14,6 @@ import { QuestionModal } from "../components/game/question";
 import { CategoryCard } from "../components/game/reveal";
 import { Podium } from "../components/game/podium";
 import { ScoreAssignmentModal } from "../components/game/assignment";
-import {
-    QuestionService,
-    CategoryService,
-} from "../services";
-
-const REVEAL_DELAY = 2200;
 
 export function Dashboard() {
 
@@ -46,82 +41,27 @@ export function Dashboard() {
         (state) => state.teams,
     );
 
-    const setSelectedBox = useCompetitionStore(
-        (state) => state.setSelectedBox,
-    );
+    const busy = useCompetitionStore(state => Boolean(
+        state.spinning || state.revealingCategory || state.currentQuestion || state.scoringActive
+    ));
+    const { reveal, cancel } = useQuestionReveal();
 
-    const setCurrentMultiplier =
-        useCompetitionStore(
-            (state) => state.setCurrentMultiplier,
-        );
-
-    const setRevealingCategory =
-        useCompetitionStore(
-            (state) =>
-                state.setRevealingCategory,
-        );
-
-    const setCurrentQuestion =
-        useCompetitionStore(
-            (state) =>
-                state.setCurrentQuestion,
-        );
-
-    const boxMultipliers = useCompetitionStore(
-        (state) => state.boxMultipliers,
-    );
-
-    const usedBoxes = useCompetitionStore(
-        (state) => state.usedBoxes,
-    );
-
-    const handleBoxSelect = useCallback(
-        (box: number) => {
-            if (usedBoxes.includes(box)) return;
-            if (currenQuestion) return;
-
-            setSelectedBox(box);
-            setCurrentMultiplier(
-                boxMultipliers[box] ?? 1,
-            );
-
-            const question =
-                QuestionService.getQuestionForBox(
-                    box,
-                );
-
-            if (question) {
-                const category =
-                    CategoryService.getById(
-                        question.categoryId,
-                    );
-
-                if (category) {
-                    setRevealingCategory(category);
-                }
-
-                setTimeout(() => {
-                    setRevealingCategory(null);
-                    setCurrentQuestion(question);
-                }, REVEAL_DELAY);
-            }
-        },
-        [
-            usedBoxes,
-            currenQuestion,
-            setSelectedBox,
-            setCurrentMultiplier,
-            boxMultipliers,
-            setRevealingCategory,
-            setCurrentQuestion,
-        ],
-    );
+    const handleBoxSelect = useCallback((box: number) => {
+        const state = useCompetitionStore.getState();
+        if (state.usedBoxes.includes(box) || state.spinning || state.currentQuestion ||
+            state.revealingCategory || state.scoringActive || state.finished ||
+            Date.now() < state.interactionLockUntil) return;
+        reveal(box);
+    }, [reveal]);
 
     function handleFinish() {
+        if (busy) return;
+        cancel();
         setFinished(true);
     }
 
     function handleRestart() {
+        cancel();
         resetCompetition();
         resetScores();
     }
@@ -178,12 +118,14 @@ export function Dashboard() {
                         h-24
                         items-center
                         justify-center
+                        gap-8
                         px-6
                     "
                 >
 
                     <button
                         onClick={handleFinish}
+                        disabled={busy}
                         className="
                             rounded-xl
                             bg-red-500/80
@@ -196,6 +138,8 @@ export function Dashboard() {
                             transition-all
                             hover:scale-105
                             hover:bg-red-500
+                            disabled:opacity-50
+                            disabled:cursor-not-allowed
                         "
                     >
                         Finalizar competencia

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 
 import { ZigmaLogo } from "../../../branding";
 import { GlassCard } from "../../ui";
+import { activeVersion } from "../../../config/versions";
 
 
 export function Header() {
@@ -40,14 +41,18 @@ export function Header() {
 
 
                         <p className="text-sm text-slate-400">
-                            Competencia Matemática
+                            {activeVersion?.name} · {activeVersion?.questions.length} preguntas
                         </p>
 
                     </div>
 
 
 
-                </div>  
+                </div>
+                <a href="../../index.html" className="text-right text-sm text-amber-400 underline">
+                    Cambiar fase
+                    <span className="mt-1 block text-xs text-slate-400">Salir e iniciar otra partida</span>
+                </a>
 
             </GlassCard>
         </motion.header>

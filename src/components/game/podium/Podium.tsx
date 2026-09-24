@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import type { Team } from "../../../types";
 import { WinnerCard } from "./WinnerCard";
 import { Confetti } from "./Confetti";
+import { activeVersion } from "../../../config/versions";
 
 type Props = {
     teams: Team[];
@@ -67,7 +68,7 @@ export function Podium({ teams, onRestart }: Props) {
                         text-amber-400
                     "
                 >
-                    Podio Final
+                    Podio · {activeVersion?.name}
                 </motion.h1>
 
                 <div
@@ -228,8 +229,11 @@ export function Podium({ teams, onRestart }: Props) {
                         sm:mb-4
                     "
                 >
-                    Comenzar Nueva Competencia
+                    Volver a jugar {activeVersion?.name}
                 </motion.button>
+                <a href="../../index.html" className="text-lg text-amber-400 underline">
+                    Elegir otra fase
+                </a>
             </div>
         </motion.div>
     );

@@ -68,6 +68,7 @@ export function useWheel() {
         const state = useCompetitionStore.getState();
 
         if (isSpinning || spinningRef.current) return;
+        if (state.finished || state.spinning) return;
         if (state.currentQuestion) return;
         if (state.revealingCategory) return;
         if (state.scoringActive) return;

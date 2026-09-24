@@ -1,11 +1,11 @@
-import questions from "../data/questions.json";
+import { activeVersion } from "../config/versions";
 
 import type { Question } from "../types";
 
 export class QuestionService {
 
     private static readonly questions =
-        questions as Question[];
+        activeVersion?.questions ?? [];
 
     private static readonly assignments =
         new Map<number, Question>();
@@ -27,17 +27,20 @@ export class QuestionService {
     public static initialize(totalBoxes: number): void {
         this.assignments.clear();
 
-        if (totalBoxes <= 0 || this.questions.length === 0) {
-            return;
+        if (!Number.isInteger(totalBoxes) || totalBoxes < 0 || totalBoxes > this.questions.length) {
+            throw new Error("No hay suficientes preguntas únicas para las casillas solicitadas.");
         }
 
-        const shuffled = [...this.questions]
-            .sort(() => Math.random() - 0.5);
+        const shuffled = [...this.questions];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
 
         for (let i = 0; i < totalBoxes; i++) {
             this.assignments.set(
                 i + 1,
-                shuffled[i % shuffled.length],
+                shuffled[i],
             );
         }
     }

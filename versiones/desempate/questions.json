@@ -1,0 +1,30 @@
+[
+    {
+        "id": 37,
+        "categoryId": 5,
+        "questionImage": "pregunta37.png",
+        "answerImage": "respuesta37.png",
+        "points": 20
+    },
+    {
+        "id": 38,
+        "categoryId": 5,
+        "questionImage": "pregunta38.png",
+        "answerImage": "respuesta38.png",
+        "points": 20
+    },
+    {
+        "id": 39,
+        "categoryId": 5,
+        "questionImage": "pregunta39.png",
+        "answerImage": "respuesta39.png",
+        "points": 20
+    },
+    {
+        "id": 40,
+        "categoryId": 5,
+        "questionImage": "pregunta40.png",
+        "answerImage": "respuesta40.png",
+        "points": 20
+    }
+]

@@ -1,114 +1,114 @@
 [
     {
-        "id": 1,
+        "id": 11,
         "categoryId": 5,
         "questionImage": "pregunta11.png",
         "answerImage": "respuesta11.png",
         "points": 20
     },
     {
-        "id": 2,
+        "id": 12,
         "categoryId": 5,
         "questionImage": "pregunta12.png",
         "answerImage": "respuesta12.png",
         "points": 20
     },
     {
-        "id": 3,
+        "id": 13,
         "categoryId": 5,
         "questionImage": "pregunta13.png",
         "answerImage": "respuesta13.png",
         "points": 20
     },
     {
-        "id": 4,
+        "id": 14,
         "categoryId": 5,
         "questionImage": "pregunta14.png",
         "answerImage": "respuesta14.png",
         "points": 20
     },
     {
-        "id": 5,
+        "id": 15,
         "categoryId": 5,
         "questionImage": "pregunta15.png",
         "answerImage": "respuesta15.png",
         "points": 20
     },
     {
-        "id": 6,
+        "id": 26,
         "categoryId": 4,
         "questionImage": "pregunta26.png",
         "answerImage": "respuesta26.png",
         "points": 20
     },
     {
-        "id": 7,
+        "id": 27,
         "categoryId": 4,
         "questionImage": "pregunta27.png",
         "answerImage": "respuesta27.png",
         "points": 20
     },
     {
-        "id": 8,
+        "id": 28,
         "categoryId": 2,
         "questionImage": "pregunta28.png",
         "answerImage": "respuesta28.png",
         "points": 20
     },
     {
-        "id": 9,
+        "id": 29,
         "categoryId": 1,
         "questionImage": "pregunta29.png",
         "answerImage": "respuesta29.png",
         "points": 20
     },
     {
-        "id": 10,
+        "id": 30,
         "categoryId": 3,
         "questionImage": "pregunta30.png",
         "answerImage": "respuesta30.png",
         "points": 20
     },
     {
-        "id": 11,
+        "id": 31,
         "categoryId": 4,
         "questionImage": "pregunta31.png",
         "answerImage": "respuesta31.png",
         "points": 20
     },
     {
-        "id": 12,
+        "id": 32,
         "categoryId": 4,
         "questionImage": "pregunta32.png",
         "answerImage": "respuesta32.png",
         "points": 20
     },
     {
-        "id": 13,
+        "id": 33,
         "categoryId": 4,
         "questionImage": "pregunta33.png",
         "answerImage": "respuesta33.png",
         "points": 20
     },
     {
-        "id": 14,
+        "id": 34,
         "categoryId": 4,
         "questionImage": "pregunta34.png",
         "answerImage": "respuesta34.png",
         "points": 20
     },
     {
-        "id": 15,
+        "id": 35,
         "categoryId": 5,
         "questionImage": "pregunta35.png",
         "answerImage": "respuesta35.png",
         "points": 20
     },
     {
-        "id": 16,
+        "id": 36,
         "categoryId": 5,
         "questionImage": "pregunta36.png",
         "answerImage": "respuesta36.png",
         "points": 20
-    }        
+    }
 ]
