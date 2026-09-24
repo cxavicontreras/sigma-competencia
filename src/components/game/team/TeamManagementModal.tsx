@@ -1,75 +1,34 @@
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
 import { GlassCard } from "../../ui";
-import { useTeamStore } from "../../../stores";
+import { useTeamStore, useCompetitionStore } from "../../../stores";
 import { useClickCooldown } from "../../../hooks/useClickCooldown";
 
-const MAX_TEAMS = 12;
+const MAX_TEAMS = 4;
 
 type Props = {
     open: boolean;
     onClose: () => void;
 };
 
-export function TeamManagementModal({
-    open,
-    onClose,
-}: Props) {
-    const teams = useTeamStore(
-        (state) => state.teams,
+export function TeamManagementModal({ open, onClose }: Props) {
+    const teams = useTeamStore((state) => state.teams);
+    const createTeam = useTeamStore((state) => state.createTeam);
+    const deleteTeam = useTeamStore((state) => state.deleteTeam);
+    const adjustScore = useTeamStore((state) => state.adjustScore);
+    const busy = useCompetitionStore((state) =>
+        state.spinning || state.revealingCategory !== null ||
+        state.currentQuestion !== null || state.scoringActive || state.finished,
     );
-    const createTeam = useTeamStore(
-        (state) => state.createTeam,
-    );
-    const updateTeam = useTeamStore(
-        (state) => state.updateTeam,
-    );
-    const deleteTeam = useTeamStore(
-        (state) => state.deleteTeam,
-    );
-
-    const [editingId, setEditingId] = useState<
-        number | null
-    >(null);
-
-    const [editName, setEditName] =
-        useState("");
-
     const cooldown = useClickCooldown();
 
     function handleAdd() {
         if (teams.length >= MAX_TEAMS) return;
-        createTeam(
-            `Equipo ${teams.length + 1}`,
-        );
+        createTeam(`Equipo ${teams.length + 1}`);
     }
 
-    function handleDelete(id: number) {
-        deleteTeam(id);
-        if (editingId === id) {
-            setEditingId(null);
-        }
-    }
-
-    function startEdit(team: {
-        id: number;
-        name: string;
-    }) {
-        setEditingId(team.id);
-        setEditName(team.name);
-    }
-
-    function saveEdit() {
-        if (
-            editingId !== null &&
-            editName.trim()
-        ) {
-            updateTeam(editingId, {
-                name: editName.trim(),
-            });
-        }
-        setEditingId(null);
+    function handleAdjust(id: number, amount: number) {
+        if (busy) return;
+        adjustScore(id, amount);
     }
 
     return (
@@ -81,236 +40,57 @@ export function TeamManagementModal({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="
-                        fixed
-                        inset-0
-                        z-50
-                        flex
-                        items-center
-                        justify-center
-                        bg-black/60
-                        backdrop-blur-sm
-                        p-4
-                    "
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="team-management-title"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
                 >
-                    <GlassCard
-                        className="
-                            flex
-                            w-full
-                            max-w-md
-                            flex-col
-                            rounded-3xl
-                            p-6
-                            sm:p-8
-                            gap-4
-                        "
-                    >
-                        <h2
-                            className="
-                                text-2xl
-                                font-bold
-                                text-amber-400
-                            "
-                        >
+                    <GlassCard className="flex w-full max-w-xl max-h-[90dvh] flex-col rounded-3xl p-6 sm:p-8 gap-4">
+                        <h2 id="team-management-title" className="text-2xl font-bold text-amber-400">
                             Gestionar Equipos
                         </h2>
-
-                        <div
-                            className="
-                                flex
-                                flex-col
-                                gap-3
-                                max-h-80
-                                overflow-y-auto
-                            "
-                        >
+                        <div className="flex min-h-0 flex-col gap-3 overflow-y-auto">
                             {teams.map((team) => (
-                                <div
-                                    key={team.id}
-                                    className="
-                                        flex
-                                        items-center
-                                        gap-2
-                                    "
-                                >
-                                    {editingId ===
-                                    team.id ? (
-                                        <input
-                                            value={
-                                                editName
-                                            }
-                                            onChange={(
-                                                e,
-                                            ) =>
-                                                setEditName(
-                                                    e.target
-                                                        .value,
-                                                )
-                                            }
-                                            onKeyDown={(
-                                                e,
-                                            ) => {
-                                                if (
-                                                    e.key ===
-                                                    "Enter"
-                                                ) {
-                                                    saveEdit();
-                                                }
-                                                if (
-                                                    e.key ===
-                                                    "Escape"
-                                                ) {
-                                                    setEditingId(
-                                                        null,
-                                                    );
-                                                }
-                                            }}
-                                            autoFocus
-                                            className="
-                                                flex-1
-                                                rounded-xl
-                                                border
-                                                border-amber-400/30
-                                                bg-slate-800
-                                                px-3
-                                                py-2
-                                                text-lg
-                                                text-slate-100
-                                                outline-none
-                                                focus:border-amber-400
-                                            "
-                                        />
-                                    ) : (
-                                        <span
-                                            className="
-                                                flex-1
-                                                text-lg
-                                                font-semibold
-                                                text-slate-200
-                                            "
-                                        >
-                                            {team.name}
-                                        </span>
-                                    )}
-
-                                    <div
-                                        className="
-                                            flex
-                                            gap-1
-                                        "
-                                    >
-                                        {editingId ===
-                                        team.id ? (
-                                            <button
-                                                onClick={
-                                                    saveEdit
-                                                }
-                                                className="
-                                                    rounded-lg
-                                                    bg-emerald-500
-                                                    px-3
-                                                    py-1
-                                                    text-sm
-                                                    font-bold
-                                                    transition-all
-                                                    hover:scale-105
-                                                "
-                                            >
-                                                Ok
-                                            </button>
-                                        ) : (
-                                            <button
-                                                onClick={() =>
-                                                    startEdit(
-                                                        team,
-                                                    )
-                                                }
-                                                className="
-                                                    rounded-lg
-                                                    bg-slate-600
-                                                    px-3
-                                                    py-1
-                                                    text-sm
-                                                    font-bold
-                                                    transition-all
-                                                    hover:scale-105
-                                                "
-                                            >
-                                                Editar
-                                            </button>
-                                        )}
-
+                                <div key={team.id} className="flex flex-wrap items-center gap-3 rounded-xl border border-white/10 bg-slate-800/60 p-3">
+                                    <div className="min-w-0 flex-1">
+                                        <span className="block break-words text-lg font-semibold text-slate-200">{team.name}</span>
+                                        <span className="text-xl font-bold text-amber-400">{team.score} pts</span>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
                                         <button
-                                            onClick={() =>
-                                                cooldown(() =>
-                                                    handleDelete(
-                                                        team.id,
-                                                    ),
-                                                )
-                                            }
-                                            className="
-                                                rounded-lg
-                                                bg-red-500/80
-                                                px-3
-                                                py-1
-                                                text-sm
-                                                font-bold
-                                                transition-all
-                                                hover:scale-105
-                                                hover:bg-red-500
-                                            "
-                                        >
-                                            Eliminar
-                                        </button>
+                                            type="button"
+                                            onClick={() => handleAdjust(team.id, 20)}
+                                            disabled={busy}
+                                            aria-label={`Sumar 20 puntos a ${team.name}`}
+                                            className="rounded-lg bg-emerald-600 px-3 py-2 text-lg font-bold hover:bg-emerald-500 disabled:opacity-30"
+                                        >+20</button>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleAdjust(team.id, -20)}
+                                            disabled={busy}
+                                            aria-label={`Restar 20 puntos a ${team.name}`}
+                                            className="rounded-lg bg-red-600 px-3 py-2 text-lg font-bold hover:bg-red-500 disabled:opacity-30"
+                                        >−20</button>
+                                        <button
+                                            type="button"
+                                            onClick={() => cooldown(() => deleteTeam(team.id))}
+                                            className="rounded-lg bg-slate-700 px-3 py-1 text-sm font-bold hover:bg-red-500"
+                                        >Eliminar</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
-
                         <button
-                            onClick={() =>
-                                cooldown(handleAdd)
-                            }
-                            disabled={
-                                teams.length >=
-                                MAX_TEAMS
-                            }
-                            className="
-                                rounded-xl
-                                border
-                                border-dashed
-                                border-amber-400/50
-                                bg-amber-400/5
-                                px-4
-                                py-2
-                                text-lg
-                                font-bold
-                                text-amber-400
-                                transition-all
-                                hover:scale-105
-                                hover:bg-amber-400/10
-                                disabled:opacity-30
-                                disabled:hover:scale-100
-                            "
-                        >
-                            Agregar Equipo
-                        </button>
-
+                            type="button"
+                            onClick={() => cooldown(handleAdd)}
+                            disabled={teams.length >= MAX_TEAMS}
+                            className="shrink-0 rounded-xl border border-dashed border-amber-400/50 bg-amber-400/5 px-4 py-2 text-lg font-bold text-amber-400 hover:bg-amber-400/10 disabled:opacity-30"
+                        >Agregar Equipo</button>
                         <button
+                            type="button"
                             onClick={onClose}
-                            className="
-                                rounded-xl
-                                bg-slate-700
-                                px-4
-                                py-2
-                                text-lg
-                                font-bold
-                                transition-all
-                                hover:scale-105
-                            "
-                        >
-                            Cerrar
-                        </button>
+                            className="shrink-0 rounded-xl bg-slate-700 px-4 py-2 text-lg font-bold hover:bg-slate-600"
+                        >Cerrar</button>
                     </GlassCard>
                 </motion.div>
             )}

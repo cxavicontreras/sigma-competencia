@@ -2,141 +2,113 @@
     {
         "id": 1,
         "categoryId": 5,
-        "questionImage": "pregunta01.png",
-        "answerImage": "respuesta01.png",
+        "questionImage": "pregunta11.png",
+        "answerImage": "respuesta11.png",
         "points": 20
     },
     {
         "id": 2,
         "categoryId": 5,
-        "questionImage": "pregunta02.png",
-        "answerImage": "respuesta02.png",
+        "questionImage": "pregunta12.png",
+        "answerImage": "respuesta12.png",
         "points": 20
     },
     {
         "id": 3,
         "categoryId": 5,
-        "questionImage": "pregunta03.png",
-        "answerImage": "respuesta03.png",
+        "questionImage": "pregunta13.png",
+        "answerImage": "respuesta13.png",
         "points": 20
     },
     {
         "id": 4,
         "categoryId": 5,
-        "questionImage": "pregunta04.png",
-        "answerImage": "respuesta04.png",
+        "questionImage": "pregunta14.png",
+        "answerImage": "respuesta14.png",
         "points": 20
     },
     {
         "id": 5,
         "categoryId": 5,
-        "questionImage": "pregunta05.png",
-        "answerImage": "respuesta05.png",
+        "questionImage": "pregunta15.png",
+        "answerImage": "respuesta15.png",
         "points": 20
     },
     {
         "id": 6,
-        "categoryId": 5,
-        "questionImage": "pregunta06.png",
-        "answerImage": "respuesta06.png",
+        "categoryId": 4,
+        "questionImage": "pregunta26.png",
+        "answerImage": "respuesta26.png",
         "points": 20
     },
     {
         "id": 7,
-        "categoryId": 5,
-        "questionImage": "pregunta07.png",
-        "answerImage": "respuesta07.png",
+        "categoryId": 4,
+        "questionImage": "pregunta27.png",
+        "answerImage": "respuesta27.png",
         "points": 20
     },
     {
         "id": 8,
-        "categoryId": 5,
-        "questionImage": "pregunta08.png",
-        "answerImage": "respuesta08.png",
+        "categoryId": 2,
+        "questionImage": "pregunta28.png",
+        "answerImage": "respuesta28.png",
         "points": 20
     },
     {
         "id": 9,
-        "categoryId": 5,
-        "questionImage": "pregunta09.png",
-        "answerImage": "respuesta09.png",
+        "categoryId": 1,
+        "questionImage": "pregunta29.png",
+        "answerImage": "respuesta29.png",
         "points": 20
     },
     {
         "id": 10,
-        "categoryId": 5,
-        "questionImage": "pregunta10.png",
-        "answerImage": "respuesta10.png",
+        "categoryId": 3,
+        "questionImage": "pregunta30.png",
+        "answerImage": "respuesta30.png",
         "points": 20
     },
     {
         "id": 11,
-        "categoryId": 2,
-        "questionImage": "pregunta16.png",
-        "answerImage": "respuesta16.png",
+        "categoryId": 4,
+        "questionImage": "pregunta31.png",
+        "answerImage": "respuesta31.png",
         "points": 20
     },
     {
         "id": 12,
-        "categoryId": 2,
-        "questionImage": "pregunta17.png",
-        "answerImage": "respuesta17.png",
+        "categoryId": 4,
+        "questionImage": "pregunta32.png",
+        "answerImage": "respuesta32.png",
         "points": 20
     },
     {
         "id": 13,
-        "categoryId": 2,
-        "questionImage": "pregunta18.png",
-        "answerImage": "respuesta18.png",
+        "categoryId": 4,
+        "questionImage": "pregunta33.png",
+        "answerImage": "respuesta33.png",
         "points": 20
     },
     {
         "id": 14,
-        "categoryId": 1,
-        "questionImage": "pregunta19.png",
-        "answerImage": "respuesta19.png",
+        "categoryId": 4,
+        "questionImage": "pregunta34.png",
+        "answerImage": "respuesta34.png",
         "points": 20
     },
     {
         "id": 15,
-        "categoryId": 1,
-        "questionImage": "pregunta20.png",
-        "answerImage": "respuesta20.png",
+        "categoryId": 5,
+        "questionImage": "pregunta35.png",
+        "answerImage": "respuesta35.png",
         "points": 20
     },
     {
         "id": 16,
-        "categoryId": 1,
-        "questionImage": "pregunta21.png",
-        "answerImage": "respuesta21.png",
+        "categoryId": 5,
+        "questionImage": "pregunta36.png",
+        "answerImage": "respuesta36.png",
         "points": 20
-    },
-    {
-        "id": 17,
-        "categoryId": 3,
-        "questionImage": "pregunta22.png",
-        "answerImage": "respuesta22.png",
-        "points": 20
-    },
-    {
-        "id": 18,
-        "categoryId": 3,
-        "questionImage": "pregunta23.png",
-        "answerImage": "respuesta23.png",
-        "points": 20
-    },
-    {
-        "id": 19,
-        "categoryId": 4,
-        "questionImage": "pregunta24.png",
-        "answerImage": "respuesta24.png",
-        "points": 20
-    },
-    {
-        "id": 20,
-        "categoryId": 4,
-        "questionImage": "pregunta25.png",
-        "answerImage": "respuesta25.png",
-        "points": 20
-    }
+    }        
 ]

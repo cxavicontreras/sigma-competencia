@@ -1,7 +1,9 @@
+import { COMPETITION } from "../config/competition";
+
 export class WheelService {
 
     public static spin(
-    max = 20,
+    max = COMPETITION.totalBoxes,
     usedBoxes: number[] = [],
 ): number {
 
@@ -27,7 +29,7 @@ export class WheelService {
 
 }
 
-    public static next(current: number, max = 20): number {
+    public static next(current: number, max = COMPETITION.totalBoxes): number {
 
         return current >= max
             ? 1

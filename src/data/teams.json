@@ -1,37 +1,25 @@
 [
     {
         "id": 1,
-        "name": "Grupo 1",
+        "name": "Finalista 1",
         "score": 0,
         "multiplier": 1
     },
     {
         "id": 2,
-        "name": "Grupo 2",
+        "name": "Finalista 2",
         "score": 0,
         "multiplier": 1
     },
     {
         "id": 3,
-        "name": "Grupo 3",
+        "name": "Finalista 3",
         "score": 0,
         "multiplier": 1
     },
     {
         "id": 4,
-        "name": "Grupo 4",
-        "score": 0,
-        "multiplier": 1
-    },
-    {
-        "id": 5,
-        "name": "Grupo 5",
-        "score": 0,
-        "multiplier": 1
-    },
-    {
-        "id": 6,
-        "name": "Grupo 6",
+        "name": "Finalista 4",
         "score": 0,
         "multiplier": 1
     }

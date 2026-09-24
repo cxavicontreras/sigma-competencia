@@ -14,23 +14,20 @@ export function ScoreBoard() {
 
     const teamCount = teams.length;
 
-    const gap = Math.max(
-        2,
-        Math.round(16 * Math.min(1, 3 / teamCount)),
-    );
-
     return (
 
         <div
             className="
-                flex
+                grid
                 flex-1
                 min-h-0
-                flex-col
+                gap-3
+                overflow-y-auto
                 w-full
-                pl-2
             "
-            style={{ gap: `${gap}px` }}
+            style={{
+                gridTemplateRows: `repeat(${Math.max(teamCount, 1)}, minmax(4rem, 1fr))`,
+            }}
         >
 
             {rankedTeams.map((team) => (

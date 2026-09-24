@@ -30,7 +30,7 @@ export function TeamCard({
     );
 
     const nameSize = scale(24, factor, 20);
-    const scoreSize = scale(32, factor, 24);
+    const scoreSize = scale(36, factor, 24);
     const labelSize = scale(14, factor, 12);
     const gap = scale(8, factor, 2);
     const px = scale(10, factor, 8);
@@ -39,13 +39,13 @@ export function TeamCard({
     return (
 
         <div
-            className="flex flex-1 min-h-14 items-center justify-between rounded-xl border border-white/10 bg-slate-800/60"
+            className="flex w-full min-w-0 min-h-0 items-center justify-between rounded-xl border border-white/10 bg-slate-800/60"
             style={{
                 padding: `${py}px ${px}px`,
                 gap: `${gap}px`,
             }}
         >
-            <h2
+            <span
                 className="
                     font-bold
                     text-amber-400
@@ -59,9 +59,9 @@ export function TeamCard({
                 }}
             >
                 {team.name}
-            </h2>
+            </span>
 
-            <div
+            <span
                 className="
                     flex
                     items-baseline
@@ -89,7 +89,7 @@ export function TeamCard({
                 >
                     pts
                 </span>
-            </div>
+            </span>
         </div>
 
     );

@@ -8,7 +8,7 @@ import {
 } from "../../../stores";
 import { useClickCooldown } from "../../../hooks/useClickCooldown";
 
-const AMOUNT_RE = /^[+-]?\d+(?:\.\d+)?$/;
+const AMOUNT_RE = /^\d+(?:\.\d+)?$/;
 
 type Props = {
     open: boolean;
@@ -51,8 +51,8 @@ export function ScoreAdjustModal({
     const [selectedTeamId, setSelectedTeamId] = useState<
         number | null
     >(null);
-    const [sign, setSign] = useState<"+" | "-">("+");
-    const [input, setInput] = useState("");
+
+    const [input, setInput] = useState("1");
     const [feedback, setFeedback] = useState("");
 
     const cooldown = useClickCooldown();
@@ -103,18 +103,12 @@ export function ScoreAdjustModal({
         raw !== null &&
         !Number.isNaN(raw) &&
         !hasError
-            ? sign === "-"
-                ? -raw
-                : raw
+            ? raw
             : null;
 
     const canApply =
         effective !== null && selectedTeam !== null;
 
-    const previewScore =
-        selectedTeam !== null && effective !== null
-            ? selectedTeam.score + effective
-            : null;
 
     const lastAdjustment =
         scoreHistory.length > 0
@@ -126,7 +120,7 @@ export function ScoreAdjustModal({
           null
         : null;
 
-    function handleApply() {
+    function handleApply(direction: "+" | "-") {
         cooldown(() => {
             if (
                 effective === null ||
@@ -135,18 +129,20 @@ export function ScoreAdjustModal({
                 return;
             }
 
+            const amount = direction === "-" ? -effective : effective;
+
             const ok = adjustScore(
                 selectedTeam.id,
-                effective,
+                amount,
             );
 
             if (ok) {
                 setFeedback(
                     `Ajuste aplicado (${formatSigned(
-                        effective,
+                        amount,
                     )} pts).`,
                 );
-                setInput("");
+
                 return;
             }
 
@@ -266,6 +262,7 @@ export function ScoreAdjustModal({
                                     ))}
                                 </select>
 
+                                <p className="text-sm text-slate-400">Cada clic en + o − aplica la cantidad indicada.</p>
                                 <div
                                     className="
                                         flex
@@ -287,11 +284,12 @@ export function ScoreAdjustModal({
                                         ).map((s) => (
                                             <button
                                                 key={s}
+                                                aria-label={s === "+" ? "Sumar puntos" : "Restar puntos"}
                                                 onClick={() =>
-                                                    setSign(s)
+                                                    handleApply(s)
                                                 }
                                                 disabled={
-                                                    sign === s
+                                                    !canApply
                                                 }
                                                 className={`
                                                     px-3
@@ -299,11 +297,11 @@ export function ScoreAdjustModal({
                                                     text-lg
                                                     font-black
                                                     transition-all
-                                                    disabled:cursor-default
+                                                    disabled:cursor-not-allowed disabled:opacity-30
                                                     ${
-                                                        sign === s
-                                                            ? "bg-amber-400 text-slate-900"
-                                                            : "bg-transparent text-slate-300 hover:bg-slate-600"
+                                                        s === "+"
+                                                            ? "bg-emerald-500 text-white hover:bg-emerald-400"
+                                                            : "bg-red-500 text-white hover:bg-red-400"
                                                     }
                                                 `}
                                             >
@@ -325,15 +323,8 @@ export function ScoreAdjustModal({
                                                 ),
                                             )
                                         }
-                                        onKeyDown={(e) => {
-                                            if (
-                                                e.key ===
-                                                "Enter"
-                                            ) {
-                                                handleApply();
-                                            }
-                                        }}
-                                        placeholder="Puntos"
+                                        aria-label="Cantidad de puntos por clic"
+                                        placeholder="Puntos por clic"
                                         inputMode="decimal"
                                         maxLength={12}
                                         autoFocus
@@ -409,61 +400,10 @@ export function ScoreAdjustModal({
                                             pts
                                         </span>
                                     </div>
-                                    <div
-                                        className="
-                                            flex
-                                            justify-between
-                                        "
-                                    >
-                                        <span className="text-slate-400">
-                                            Ajuste
-                                        </span>
-                                        <span className="font-semibold text-amber-400">
-                                            {effective !== null
-                                                ? `${formatSigned(
-                                                      effective,
-                                                  )} pts`
-                                                : "\u2014"}
-                                        </span>
-                                    </div>
-                                    <div
-                                        className="
-                                            flex
-                                            justify-between
-                                        "
-                                    >
-                                        <span className="text-slate-400">
-                                            Nuevo puntaje
-                                        </span>
-                                        <span className="font-black text-white">
-                                            {previewScore !== null
-                                                ? `${formatAmount(
-                                                      previewScore,
-                                                  )} pts`
-                                                : "\u2014"}
-                                        </span>
-                                    </div>
+
                                 </div>
 
-                                <button
-                                    onClick={handleApply}
-                                    disabled={!canApply}
-                                    className="
-                                        rounded-xl
-                                        bg-emerald-500
-                                        px-4
-                                        py-2
-                                        text-lg
-                                        font-bold
-                                        transition-all
-                                        hover:scale-105
-                                        hover:bg-emerald-400
-                                        disabled:opacity-30
-                                        disabled:hover:scale-100
-                                    "
-                                >
-                                    Aplicar ajuste
-                                </button>
+
 
                                 {lastAdjustment !== null ? (
                                     <div
