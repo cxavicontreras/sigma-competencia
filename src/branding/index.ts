@@ -1,2 +1,2 @@
-export { ZigmaLogo } from "./ZigmaLogo";
-export { ZigmaTitle } from "./ZigmaTitle";
+export { BrandLogo } from "./BrandLogo";
+export { BrandTitle } from "./BrandTitle";

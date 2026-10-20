@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 
 import { AnimatedBackground } from "../components/common/AnimatedBackground";
-import { ZigmaTitle } from "../branding";
+import { BrandTitle } from "../branding";
+import { BRANDING } from "../config/branding";
 import { LoadingDots } from "../components/common/LoadingDots";
 import { MathBackground } from "../components/common/MathBackground";
 import { ParticleField } from "../components/common/ParticleField";
@@ -32,7 +33,7 @@ export function Splash() {
                 className="z-20 flex flex-col items-center text-center"
             >
 
-                <ZigmaTitle />
+                <BrandTitle />
 
                 <motion.div
                     initial={{ width: 0 }}
@@ -69,7 +70,7 @@ export function Splash() {
                         text-slate-300
                     "
                 >
-                    Competencia Matemática
+                    {BRANDING.appName}
                 </motion.p>
 
                 <LoadingDots />

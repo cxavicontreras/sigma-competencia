@@ -1,4 +1,4 @@
-# SIGMA 2026
+# Competencia Matemática
 
 Competencia matemática con menú inicial para elegir Eliminatoria, Final o Desempate.
 

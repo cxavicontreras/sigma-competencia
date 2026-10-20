@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 
-import { ZigmaLogo } from "../../../branding";
+import { BrandLogo } from "../../../branding";
 import { GlassCard } from "../../ui";
 import { activeVersion } from "../../../config/versions";
+import { BRANDING } from "../../../config/branding";
 
 
 export function Header() {
@@ -31,12 +32,12 @@ export function Header() {
             >
                 <div className="flex items-center gap-5">
 
-                    <ZigmaLogo />
+                    <BrandLogo />
 
                     <div>
 
                         <h1 className="text-3xl font-bold tracking-wider">
-                            SIGMA 2026
+                            {BRANDING.competitionName}
                         </h1>
 
 

@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 
-type ZigmaLogoProps = {
+type BrandLogoProps = {
     size?: number;
 }
 
-export function ZigmaLogo( {
+export function BrandLogo( {
     size = 115,
-}: ZigmaLogoProps){
+}: BrandLogoProps){
     return (
         
         <motion.svg
@@ -80,23 +80,25 @@ export function ZigmaLogo( {
                 opacity=".15"
             />
 
-            {/* Z */}
+            {/* Pi */}
 
             <path
                 d="
-                    M135 80
-                    L135 70
-                    M135 70
-                    H70
-                    L110 100
-                    L70 130
-                    H135
-                    L135 120
+                    M68 76
+                    H132
+                    M86 76
+                    V126
+                    M114 76
+                    V112
+                    C114 123
+                    120 128
+                    131 124
                 "
                 stroke="url(#gold)"
-                strokeWidth="10"
-                strokeLinecap="square"
-                strokeLinejoin="miter"
+                strokeWidth="12"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
             />
 
             {/* Glow */}

@@ -1,4 +1,5 @@
 import { VERSIONS } from "../config/versions";
+import { BRANDING } from "../config/branding";
 
 // El reset global sin capa anula el espaciado normal de Tailwind.
 // Priorizamos solo el espaciado del menú para no alterar las pantallas de juego.
@@ -6,8 +7,8 @@ export function VersionSelector() {
     return (
         <main className="h-dvh overflow-y-auto bg-slate-950 p-6! text-slate-100">
             <section className="mx-auto! flex min-h-full w-full max-w-6xl flex-col justify-center py-10!">
-                <p className="text-center text-sm font-bold uppercase tracking-[0.3em] text-amber-400">Competencia matemática</p>
-                <h1 className="mt-4! text-center text-5xl font-black sm:text-7xl">SIGMA <span className="text-amber-400">2026</span></h1>
+                <p className="text-center text-sm font-bold uppercase tracking-[0.3em] text-amber-400">{BRANDING.appName}</p>
+                <h1 className="mt-4! text-center text-5xl font-black sm:text-7xl">{BRANDING.competitionName}</h1>
                 <h2 className="mt-6! text-center text-2xl font-semibold">Elige la fase que quieres jugar</h2>
                 <p className="mt-3! text-center text-slate-400">Tres fases, 40 preguntas diferentes.</p>
                 <nav aria-label="Fases de la competencia" className="mt-10! grid gap-6 lg:grid-cols-3">

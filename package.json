@@ -1,7 +1,9 @@
 {
-  "name": "sigma-2026",
+  "name": "competencia-matematica",
   "private": true,
   "version": "1.0.0",
+  "description": "Desktop application for managing interactive mathematics competitions, participants, challenges, and scoring.",
+  "author": "Xavier Contreras",
   "type": "module",
   "main": "dist-electron/main.js",
   "scripts": {
@@ -17,20 +19,22 @@
     "format": "prettier . --write"
   },
   "build": {
-    "appId": "com.sigma.2026",
-    "productName": "Sigma 2026",
+    "appId": "com.xaviercontreras.competenciamatematica",
+    "productName": "Sistema de Competencia Matemática",
     "directories": {
-      "output": "release"
+      "output": "release-competencia-matematica"
     },
     "files": [
       "dist/**/*",
       "dist-electron/**/*"
     ],
+    "publish": null,
     "win": {
       "target": [
         "nsis"
       ],
-      "icon": null
+      "icon": "build/icon.ico",
+      "executableName": "competencia-matematica"
     },
     "nsis": {
       "oneClick": false,

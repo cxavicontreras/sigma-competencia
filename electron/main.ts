@@ -7,6 +7,9 @@ const __dirname = dirname(__filename);
 
 const isDev = process.env.NODE_ENV === "development";
 
+const APP_DATA_DIR = "competencia-matematica";
+app.setPath("userData", join(app.getPath("appData"), APP_DATA_DIR));
+
 function createWindow() {
     const win = new BrowserWindow({
         width: 1280,
